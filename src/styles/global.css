@@ -1,0 +1,83 @@
+.Ticket {
+  background: var(--bgTicket);
+  background-color: #f0f1f2;
+  background-repeat: no-repeat;
+  background-size: contain;
+  border-radius: 12px;
+}
+.BuyTicket-info {
+  padding: 0.75rem;
+  text-align: center;
+}
+.Ticket-divider {
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -o-box-align: center;
+  -ms-flex-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: box;
+  display: flex;
+  height: 1.1rem;
+  position: relative;
+}
+.BuyTicket-cta {
+  padding: 1rem 1.25rem;
+}
+
+.BuyTicket-info-title {
+  color: #13161c;
+  font-size: 1.375rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.BuyTicket-info-description {
+  color: #2d323a;
+  font-size: 0.875rem;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  line-height: 20px;
+  margin: 0 auto;
+}
+
+.Ticket-divider--left {
+  background-color: #13161c;
+  border-radius: 50%;
+  height: 12px;
+  left: -6px;
+  position: absolute;
+  width: 12px;
+}
+
+.Ticket-divider--right {
+  background-color: #13161c;
+  border-radius: 50%;
+  height: 12px;
+  position: absolute;
+  right: -6px;
+  width: 12px;
+}
+
+.BuyTicket-cta button {
+  border: 1px 1px 2px;
+  border-color: #1e2229;
+  color: #fff !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.3px !important;
+  padding: 0.5rem !important;
+  text-transform: capitalize !important;
+  width: 100%;
+}
+@font-face {
+  font-family: "NanumPenScript";
+  font-weight: 400;
+  font-display: block;
+  font-style: normal;
+  font-named-instance: "Regular";
+  src: url("/fonts/NanumPenScript.woff2") format("woff2");
+}
