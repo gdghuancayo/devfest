@@ -81,3 +81,72 @@
   font-named-instance: "Regular";
   src: url("/fonts/NanumPenScript.woff2") format("woff2");
 }
+
+.rainbow-border {
+  position: relative;
+  border-radius: 8px;
+  /* Esquinas redondeadas */
+  padding: 4px;
+  /* Borde grueso */
+  background: linear-gradient(90deg, #4285F4, #34A853, #FBBC05, #EA4335);
+}
+
+.rainbow-border.focused {
+  background: linear-gradient(90deg, #4285F4, #34A853, #FBBC05, #EA4335);
+}
+
+.rainbow-border input {
+  background-color: black;
+  border-radius: 8px;
+  /* Mantiene las esquinas redondeadas */
+  position: relative;
+  z-index: 1;
+}
+
+label {
+  pointer-events: none;
+  /* Permite que el input sea clicable a través del label */
+}
+
+.wrapper {
+  display: flex;
+  column-gap: 10px;
+}
+
+.wrapper .dot {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background: #008ae6;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  animation: animate 1s ease-in-out infinite alternate;
+}
+
+.dot:nth-child(1) {
+  animation-delay: -0.25s;
+}
+
+.dot:nth-child(2) {
+  background: #e60000;
+  animation-delay: -0.5s;
+}
+
+.dot:nth-child(3) {
+  background: #ffcc00;
+  animation-delay: -0.75s;
+}
+
+.dot:nth-child(4) {
+  background: #008800;
+  animation-delay: -1s;
+}
+
+@keyframes animate {
+  0% {
+    transform: translateY(-10px);
+  }
+
+  100% {
+    transform: translateY(5px);
+  }
+}

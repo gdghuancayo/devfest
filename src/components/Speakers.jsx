@@ -6,44 +6,81 @@ import { TabGroup, TabPanel, TabPanels } from '@headlessui/react'
 import clsx from 'clsx'
 
 import { Container } from '@/components/Container'
-import dianneGuilianelliImage from '@/images/avatars/dianne-guilianelli.jpg'
-import erhartCockrinImage from '@/images/avatars/erhart-cockrin.jpg'
-import jaquelinIschImage from '@/images/avatars/jaquelin-isch.jpg'
-import parkerJohnsonImage from '@/images/avatars/parker-johnson.jpg'
-import ronniCantadoreImage from '@/images/avatars/ronni-cantadore.jpg'
-import stevenMchailImage from '@/images/avatars/steven-mchail.jpg'
+
+import LeslieImage from '@/images/ponentes/leslie.jpg'
+import DamianImage from '@/images/ponentes/damian.png'
+import AaronImage from '@/images/ponentes/aaron.jpeg'
+import JorgeImage from '@/images/ponentes/jorge.jpg'
+import NicolasImage from '@/images/ponentes/nicolas.jpg'
+import CesarImage from '@/images/ponentes/cesar.jpg'
+import ErikImage from '@/images/ponentes/erik.jpg'
+import FelicitasImage from '@/images/ponentes/felicitas.jpeg'
+import EduardoImage from '@/images/ponentes/eduardo.jpg'
+import GonzaloImage from '@/images/ponentes/gonzalo.jpg'
+import AndersImage from '@/images/ponentes/anders.png'
+import LuceroImage from '@/images/ponentes/lucero.jpg'
 
 const speakers = [
   {
-    name: 'Steven McHail',
-    role: 'Designer at Globex Corporation',
-    image: stevenMchailImage,
+    name: 'Leslie Lugo 🇵🇪',
+    role: 'Google Analytical Lead',
+    image: LeslieImage,
   },
   {
-    name: 'Jaquelin Isch',
-    role: 'UX Design at InGen',
-    image: jaquelinIschImage,
+    name: 'Damian Sire 🇺🇾',
+    role: 'Google Expert',
+    image: DamianImage,
   },
   {
-    name: 'Dianne Guilianelli',
-    role: 'General Manager at Initech',
-    image: dianneGuilianelliImage,
+    name: 'Aarón Guerrero 🇲🇽',
+    role: 'Google Expert',
+    image: AaronImage,
   },
   {
-    name: 'Ronni Cantadore',
-    role: 'Design Engineer at Weyland-Yutani',
-    image: ronniCantadoreImage,
+    name: 'Jorge Cano 🇦🇷',
+    role: 'Google Expert',
+    image: JorgeImage,
   },
   {
-    name: 'Erhart Cockrin',
-    role: 'Product Lead at Cyberdyne Systems',
-    image: erhartCockrinImage,
+    name: 'Nicolas Molina 🇧🇴',
+    role: 'Platzi & Google Expert',
+    image: NicolasImage,
   },
   {
-    name: 'Parker Johnson',
-    role: 'UI Designer at MomCorp',
-    image: parkerJohnsonImage,
+    name: 'Cesar Cervantes 🇵🇪',
+    role: 'Platzi',
+    image: CesarImage,
   },
+  {
+    name: 'Erik Sibille 🇵🇪',
+    role: 'Musa',
+    image: ErikImage,
+  },
+  {
+    name: 'Felícitas Pila 🇵🇪',
+    role: 'Nasa Space Apps',
+    image: FelicitasImage,
+  },
+  {
+    name: 'José Eduardo 🇵🇪',
+    role: 'GitHub Campus Expert',
+    image: EduardoImage,
+  },
+  {
+    name: 'Gonzalo Caira 🇵🇪',
+    role: 'Full Time Force',
+    image: GonzaloImage,
+  },
+  {
+    name: 'Jürgen Anders 🇵🇪',
+    role: 'Datapath',
+    image: AndersImage,
+  },
+  {
+    name: 'Lucero Beatriz 🇵🇪',
+    role: 'Gobierno Regional de Junín',
+    image: LuceroImage,
+  }
 ]
 
 function ImageClipPaths({ id, ...props }) {
@@ -108,7 +145,7 @@ export function Speakers() {
         >
           <TabPanels className="mx-auto">
             <TabPanel
-              className="grid grid-cols-1 gap-x-8 gap-y-10 ui-not-focus-visible:outline-none sm:grid-cols-2 sm:gap-y-16 md:grid-cols-3"
+              className="grid grid-cols-1 gap-x-8 gap-y-10 ui-not-focus-visible:outline-none sm:grid-cols-2 sm:gap-y-16 md:grid-cols-4"
               unmount={false}
             >
               {speakers.map((speaker, speakerIndex) => (
@@ -138,7 +175,7 @@ export function Speakers() {
                     </div>
                   </div>
                   <h3 className="mt-8 text-xl font-bold tracking-tight text-white font-display">
-                    {speaker.name} <span className="text-xl"> 🇪🇸</span>
+                    {speaker.name}
                   </h3>
                   <p className="mt-1 text-base tracking-tight text-slate-500">
                     {speaker.role}

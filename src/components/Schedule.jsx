@@ -1,17 +1,219 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import LeslieImage from '@/images/ponentes/leslie.jpg'
+import DamianImage from '@/images/ponentes/damian.png'
+import AaronImage from '@/images/ponentes/aaron.jpeg'
+import JorgeImage from '@/images/ponentes/jorge.jpg'
+import NicolasImage from '@/images/ponentes/nicolas.jpg'
+import CesarImage from '@/images/ponentes/cesar.jpg'
+import ErikImage from '@/images/ponentes/erik.jpg'
+import FelicitasImage from '@/images/ponentes/felicitas.jpeg'
+import EduardoImage from '@/images/ponentes/eduardo.jpg'
+import GonzaloImage from '@/images/ponentes/gonzalo.jpg'
+import AndersImage from '@/images/ponentes/anders.png'
+import LuceroImage from '@/images/ponentes/lucero.jpg'
+import EdwardImage from '@/images/ponentes/edward.png'
+import SamuelImage from '@/images/ponentes/samuel.jpg'
+import YancelImage from '@/images/ponentes/yancel.jpg'
+import Image from 'next/image'
+
+function generarStartAt(hora) {
+  const [horas, minutos] = hora.split(':').map(Number)
+
+  // Establecer la fecha deseada (por ejemplo, 13 de octubre de 2024)
+  const fecha = new Date(2024, 9, 13) // Nota: los meses en JavaScript van de 0 (enero) a 11 (diciembre)
+
+  // Establecer las horas y minutos
+  fecha.setHours(horas, minutos, 0, 0)
+
+  // Retornar el timestamp en milisegundos
+  return fecha.getTime()
+}
+
+const LIST_OF_TALKS = [
+  {
+    speaker: {
+      name: 'José Eduardo',
+      description: 'GitHub Campus Expert',
+      imgUrl: EduardoImage,
+    },
+    title: 'En comunidad crecemos todos ✨',
+    startAt: generarStartAt('14:00'),
+    durationInMinutes: 20,
+  },
+  {
+    speaker: {
+      name: 'Cesar Cervantes',
+      description: 'Platzi',
+      imgUrl: CesarImage,
+    },
+    title: 'Nunca pares de aprender 💪',
+    startAt: generarStartAt('14:30'),
+    durationInMinutes: 30,
+  },
+  {
+    speaker: {
+      name: 'Damian Sire',
+      description: 'Google Expert',
+      imgUrl: DamianImage,
+    },
+    title: 'Conoce Angular en 20 minutos 📱',
+    startAt: generarStartAt('15:10'),
+    durationInMinutes: 30,
+  },
+  {
+    speaker: {
+      name: 'Felícitas Pila',
+      description: 'Nasa Space Apps',
+      imgUrl: FelicitasImage,
+    },
+    title: 'Tecnología al rescate 🌍',
+    startAt: generarStartAt('15:50'),
+    durationInMinutes: 30,
+  },
+  {
+    speaker: {
+      name: 'Nicolas Molina',
+      description: 'Platzi',
+      imgUrl: NicolasImage,
+    },
+    title: 'Signals y RxJs 🚦',
+    startAt: generarStartAt('16:30'),
+    durationInMinutes: 30,
+  },
+  {
+    speaker: {
+      name: 'Aarón Guerrero',
+      description: 'Google Expert',
+      imgUrl: AaronImage,
+    },
+    title: 'Certificate con Google 🎓',
+    startAt: generarStartAt('17:00'),
+    durationInMinutes: 30,
+  },
+  {
+    speaker: {
+      name: 'Leslie Lugo',
+      description: 'Google Analytical Lead',
+      imgUrl: LeslieImage,
+    },
+    title: 'Surfea la ola de la IA 🤖',
+    startAt: generarStartAt('17:30'),
+    durationInMinutes: 30,
+  },
+  {
+    speaker: {
+      name: 'Erik Sibille',
+      description: 'Musa',
+      imgUrl: ErikImage,
+    },
+    title: 'El secreto de las startups 🚀',
+    startAt: generarStartAt('18:10'),
+    durationInMinutes: 30,
+  },
+  {
+    speaker: {
+      name: 'Lucero Beatriz',
+      description: 'GORE Junín',
+      imgUrl: LuceroImage,
+    },
+    title: 'Gobierno y tecnología 🏛️',
+    startAt: generarStartAt('18:50'),
+    durationInMinutes: 30,
+  },
+]
+
+const LIST_OF_WORKSHOPS = [
+  {
+    speaker: {
+      name: 'Jürgen Anders',
+      description: 'Datapath',
+      imgUrl: AndersImage,
+    },
+    title: 'Taller de IoT 📡',
+    startAt: generarStartAt('8:00'),
+    durationInMinutes: 120,
+  },
+  {
+    speaker: {
+      name: 'Gonzalo Caira',
+      description: 'Full Time Force',
+      imgUrl: GonzaloImage,
+    },
+    title: 'Taller de Flutter 🦋',
+    startAt: generarStartAt('8:00'),
+    durationInMinutes: 120,
+  },
+  {
+    speaker: {
+      name: 'Edward Luna',
+      description: 'Dotoc',
+      imgUrl: EdwardImage,
+    },
+    title: 'Taller de AppScript 📊',
+    startAt: generarStartAt('8:00'),
+    durationInMinutes: 120,
+  },
+  {
+    speaker: {
+      name: 'Samuel Rojas',
+      description: 'INIA',
+      imgUrl: SamuelImage,
+    },
+    title: 'Taller de Google Earth Engine 🌍',
+    startAt: generarStartAt('8:00'),
+    durationInMinutes: 120,
+  },
+  {
+    speaker: {
+      name: 'Yancel Valdivia',
+      description: 'Zébrands',
+      imgUrl: YancelImage,
+    },
+    title: 'Taller de IA con Gemini 🌌',
+    startAt: generarStartAt('8:00'),
+    durationInMinutes: 120,
+  }
+]
 
 export const Schedule = () => {
   const timezone = useGetTimezone()
-
+  const [activeTab, setActiveTab] = useState('Conferencia')
+  const [arrayRender, setArrayRender] = useState([])
+  useEffect(() => {
+    if (activeTab === 'Conferencia') {
+      setArrayRender(LIST_OF_TALKS)
+    } else if (activeTab === 'Talleres') {
+      setArrayRender(LIST_OF_WORKSHOPS)
+    }
+  }, [activeTab])
   return (
     <section id="agenda" className="mx-auto max-w-[802px] px-4 pb-40 pt-20">
       <h2 className="max-w-2xl mx-auto text-4xl font-medium tracking-tighter text-center text-white font-display sm:text-5xl">
         Agenda
       </h2>
       <p className="mt-4 text-center text-xl text-white/80 [text-wrap:balance]">
-        Conferencia / Talleres / Experiencias
+        <button
+          className={`mx-2 text-midu-primary font-bold ${activeTab === 'Conferencia' ? 'rounded-full bg-indigo-900 px-3 py-1' : ''} `}
+          onClick={() => setActiveTab('Conferencia')}
+        >
+          Conferencia
+        </button>{' '}
+        |{' '}
+        <button
+          className={`mx-2 text-midu-primary font-bold ${activeTab === 'Talleres' ? 'rounded-full bg-indigo-900 px-3 py-1' : ''} `}
+          onClick={() => setActiveTab('Talleres')}
+        >
+          Talleres
+        </button>{' '}
+        |{' '}
+        <button
+          className={`mx-2 text-midu-primary font-bold ${activeTab === 'Experiencias' ? 'rounded-full bg-indigo-900 px-3 py-1' : ''} `}
+          onClick={() => setActiveTab('Experiencias')}
+        >
+          Experiencias
+        </button>
       </p>
       <div className="w-full mx-auto mt-2 space-y-4 text-center">
         <span className="inline-flex flex-wrap items-center justify-center px-3 py-1 text-sm font-medium text-white rounded-full text-primary-300 shadow-inset bg-sky-950 shadow-white">
@@ -35,12 +237,12 @@ export const Schedule = () => {
         </span>
       </div>
       <div className="flex flex-col gap-8 mt-12 md:hidden lg:mt-16">
-        {LIST_OF_TALKS.map((talk) => (
+        {arrayRender.map((talk) => (
           <AgendaItemMobile key={talk.speaker.name} {...talk} />
         ))}
       </div>
       <div className="flex-col hidden gap-8 mt-12 md:flex lg:mt-16">
-        {LIST_OF_TALKS.map((talk) => (
+        {arrayRender.map((talk) => (
           <AgendaItem key={talk.speaker.name} {...talk} />
         ))}
       </div>
@@ -65,8 +267,8 @@ const AgendaItem = ({ startAt, durationInMinutes, title, speaker }) => {
         </header>
         <h4 className="mt-2 text-xl font-bold text-white">{title}</h4>
         <div className="flex items-center gap-3">
-          <img
-            className="absolute right-0 top-0 -z-10 h-full w-[200px] shrink-0 object-cover object-center brightness-50 sm:brightness-100"
+          <Image
+            className="absolute right-0 top-0 -z-10 h-full w-[200px] shrink-0 object-cover object-top brightness-50 sm:brightness-100"
             src={speaker.imgUrl}
             alt={`Foto de ${speaker.name}`}
             style={{
@@ -94,41 +296,14 @@ const AgendaItemMobile = ({ startAt, durationInMinutes, title, speaker }) => {
         </span>
       </header>
       <div className="flex items-center mt-3 gap-x-3">
-        <img
-          className="object-cover object-center w-16 h-16 rounded-full"
+        <Image
+          className="object-cover object-top w-16 h-16 rounded-full"
           src={speaker.imgUrl}
           alt={`Foto de ${speaker.name}`}
         />
         <h5 className="font-bold text-white">{title}</h5>
       </div>
     </article>
-  )
-}
-
-const AgendaRaffle = ({ title, sponsor }) => {
-  const accesibilityLink = `Ir al sitio de ${sponsor.name}`
-
-  return (
-    <div className="relative w-full max-w-md p-4 mx-auto overflow-hidden text-white border border-midu-primary/50 bg-button md:shadow-button group cursor-crosshair rounded-2xl">
-      <h4 className="font-bold">{title}</h4>
-      <div className="flex items-center gap-3 mt-2">
-        <span className="text-sm text-white/60">Patrocinado por:</span>
-        <a
-          href={sponsor.url}
-          target="_blank"
-          title={accesibilityLink}
-          aria-label={accesibilityLink}
-        >
-          <sponsor.logo />
-        </a>
-      </div>
-      <div
-        aria-disabled
-        className="absolute bottom-0 right-0 -z-10 h-auto w-max -rotate-12 scale-125 opacity-50 transition-transform group-hover:-rotate-[24deg] group-hover:scale-150"
-      >
-        <sponsor.logo />
-      </div>
-    </div>
   )
 }
 
@@ -171,36 +346,3 @@ export const useGetTimezone = () => {
 
   return timezone
 }
-
-const LIST_OF_TALKS = [
-  {
-    speaker: {
-      name: 'Miguel Ángel Durán',
-      description: 'Creador de contenido y divulgador',
-      imgUrl: '/images/man.jpg',
-    },
-    title: '¡Hola, miduConf 👋!',
-    startAt: 1726153200000,
-    durationInMinutes: 15,
-  },
-  {
-    speaker: {
-      name: 'Guillermo Rauch',
-      description: 'CEO de Vercel',
-      imgUrl: '/images/man.jpg',
-    },
-    title: 'Como la IA Revolucionará el mundo Web',
-    startAt: 1726154100000,
-    durationInMinutes: 30,
-  },
-  {
-    speaker: {
-      name: 'Carmen Ansio',
-      description: 'UX Engineer Freelance',
-      imgUrl: '/images/man.jpg',
-    },
-    title: 'CSS en 2024',
-    startAt: 1726155900000,
-    durationInMinutes: 30,
-  },
-]

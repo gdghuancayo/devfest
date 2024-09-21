@@ -3,33 +3,41 @@
 import createGlobe from 'cobe'
 
 import { useState, useEffect, useRef } from 'react'
+import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 const Countdown = () => {
-  const calculateTimeLeft = () => {
-    const difference = +new Date('2024-11-09') - +new Date()
-    let timeLeft = {}
-
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      }
-    }
-
-    return timeLeft
-  }
-
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft())
+  const [timeLeft, setTimeLeft] = useState(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setTimeLeft(calculateTimeLeft())
-    }, 1000)
+    const calculateTimeLeft = () => {
+      const difference = +new Date('2024-11-09') - +new Date();
+      let timeLeft = {};
 
-    return () => clearTimeout(timer)
-  }, [timeLeft])
+      if (difference > 0) {
+        timeLeft = {
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+          minutes: Math.floor((difference / 1000 / 60) % 60),
+          seconds: Math.floor((difference / 1000) % 60),
+        };
+      }
+
+      return timeLeft;
+    };
+
+    setTimeLeft(calculateTimeLeft());
+
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+
+  if (!timeLeft) {
+    return null; // Or a loading placeholder
+  }
 
   return (
     <div className="flex items-center justify-center mt-20 font-semibold text-white text-7xl">
@@ -53,10 +61,16 @@ const Countdown = () => {
         <div className="text-lg md:text-2xl">Segundos</div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export const Hero = () => {
+  const provider = new GoogleAuthProvider()
+
+  const auth = getAuth()
+  auth.languageCode = 'es'
+  const router = useRouter()
+
   const canvasRef = useRef(null)
 
   useEffect(() => {
@@ -78,10 +92,10 @@ export const Hero = () => {
         glowColor: [0.15, 0.15, 0.15],
         markerColor: [100, 100, 100],
         markers: [
-          // { location: [37.7595, -122.4367], size: 0.03 }, // San Francisco
-          // { location: [40.7128, -74.006], size: 0.03 }, // New York City
-          // { location: [35.6895, 139.6917], size: 0.03 }, // Tokyo
-          // { location: [28.7041, 77.1025], size: 0.03 }, // Delhi
+          { location: [37.7595, -122.4367], size: 0.03 }, // San Francisco
+          { location: [40.7128, -74.006], size: 0.03 }, // New York City
+          { location: [35.6895, 139.6917], size: 0.03 }, // Tokyo
+          { location: [28.7041, 77.1025], size: 0.03 }, // Delhi
         ],
         onRender: (state) => {
           state.phi = phi
@@ -95,6 +109,14 @@ export const Hero = () => {
     }
   }, [])
 
+  // Parámetros de búsqueda
+  const searchParams = useSearchParams()
+  const org = searchParams.get('org')
+
+  const handleGoogleLogin = async (type) => {
+    await signInWithPopup(auth, provider)
+    router.push(`/registro?type=${type}&org=${org || 'uc'}`)
+  }
   return (
     <div className="px-3 pt-4">
       <section
@@ -171,7 +193,7 @@ export const Hero = () => {
           </a>
         </div>
         <canvas
-          className="mt-4 absolute top-[7.1rem] z-20 aspect-square size-full max-w-fit md:top-[12rem]"
+          className="absolute top-[7.1rem] z-20 mt-4 aspect-square size-full max-w-fit md:top-[12rem]"
           ref={canvasRef}
           style={{ width: 1200, height: 1200 }}
         />
@@ -180,7 +202,7 @@ export const Hero = () => {
           <div className="absolute max-w-6xl m-auto inset-x-6 bottom-12 md:top-2/3">
             <div className="grid grid-cols-1 gap-x-10 gap-y-6 rounded-4xl border border-white/[15%] bg-white/[3%] px-6 py-6 shadow-xl backdrop-blur md:-mt-6 md:grid-cols-7 md:p-8">
               <div className="flex flex-col gap-2 md:col-span-3 md:mt-6">
-                <h3 className="text-4xl text-transparent bg-gradient-to-b from-indigo-300 to-indigo-500 bg-clip-text">
+                <h3 className="text-3xl text-transparent bg-gradient-to-b from-indigo-300 to-indigo-500 bg-clip-text">
                   Regístrate ahora
                 </h3>
                 <p className="text-lg leading-6 text-indigo-200/80 md:mr-10">
@@ -206,7 +228,10 @@ export const Hero = () => {
                   <div className="Ticket-divider--right"></div>
                 </div>
                 <div className="BuyTicket-cta">
-                  <button className="bg-gray-800 rounded-lg">
+                  <button
+                    className="bg-gray-800 rounded-lg"
+                    onClick={() => handleGoogleLogin('online')}
+                  >
                     Regístrate Online
                   </button>
                 </div>
@@ -229,7 +254,10 @@ export const Hero = () => {
                   <div className="Ticket-divider--right"></div>
                 </div>
                 <div className="BuyTicket-cta">
-                  <button className="px-4 py-2 font-bold text-white rounded-lg bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-900">
+                  <button
+                    className="px-4 py-2 font-bold text-white rounded-lg bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-900"
+                    onClick={() => handleGoogleLogin('presencial')}
+                  >
                     Regístrate Presencial
                   </button>
                 </div>
