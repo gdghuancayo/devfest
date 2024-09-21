@@ -16,6 +16,9 @@ import LuceroImage from '@/images/ponentes/lucero.jpg'
 import EdwardImage from '@/images/ponentes/edward.png'
 import SamuelImage from '@/images/ponentes/samuel.jpg'
 import YancelImage from '@/images/ponentes/yancel.jpg'
+import AfterImage from '@/images/experiencies/after.png'
+import ConcursoImage from '@/images/experiencies/concurso.jpg'
+import GamerImage from '@/images/experiencies/gamer.jpg'
 import Image from 'next/image'
 
 function generarStartAt(hora) {
@@ -182,7 +185,7 @@ const LIST_OF_EXPERIENCES = [
     speaker: {
       name: 'Feria de Tecnología',
       description: 'Atracciones y sponsors',
-      imgUrl: JorgeImage,
+      imgUrl: GamerImage,
     },
     startAt: generarStartAt('10:30'),
     title: 'VS Gaming 🎮, VR / AR, Drones y más',
@@ -192,7 +195,7 @@ const LIST_OF_EXPERIENCES = [
     speaker: {
       name: 'FestCode',
       description: 'Concurso de programación',
-      imgUrl: JorgeImage,
+      imgUrl: ConcursoImage,
     },
     startAt: generarStartAt('10:30'),
     title: 'Final en vivo 🏆',
@@ -208,6 +211,15 @@ const LIST_OF_EXPERIENCES = [
     title: 'Primeros pasos en programación 🚶‍♂️',
     durationInMinutes: 30,
   },
+  {
+    speaker: {
+      name: 'After Party',
+      description: 'Cierre del evento',
+      imgUrl: AfterImage,
+    },
+    startAt: generarStartAt('20:30'),
+    title: 'Música, premios y más 🎉'
+    },
 ]
 
 export const Schedule = () => {

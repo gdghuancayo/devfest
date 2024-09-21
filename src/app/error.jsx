@@ -10,7 +10,7 @@ export default function Error({ error, reset }) {
 
   return (
     <div className="flex flex-col items-center mt-10">
-      <div className="mt-10 text-3xl font-bold md:text-5xl lg:text-6xl xl:text-7xl">
+      <div className="mt-10 text-3xl font-bold text-white md:text-5xl lg:text-6xl xl:text-7xl">
         Ups ocurrió un error
       </div>
 
