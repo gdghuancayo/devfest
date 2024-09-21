@@ -174,7 +174,40 @@ const LIST_OF_WORKSHOPS = [
     title: 'Taller de IA con Gemini 🌌',
     startAt: generarStartAt('8:00'),
     durationInMinutes: 120,
-  }
+  },
+]
+
+const LIST_OF_EXPERIENCES = [
+  {
+    speaker: {
+      name: 'Feria de Tecnología',
+      description: 'Atracciones y sponsors',
+      imgUrl: JorgeImage,
+    },
+    startAt: generarStartAt('10:30'),
+    title: 'VS Gaming 🎮, VR / AR, Drones y más',
+    durationInMinutes: 30,
+  },
+  {
+    speaker: {
+      name: 'FestCode',
+      description: 'Concurso de programación',
+      imgUrl: JorgeImage,
+    },
+    startAt: generarStartAt('10:30'),
+    title: 'Final en vivo 🏆',
+    durationInMinutes: 30,
+  },
+  {
+    speaker: {
+      name: 'Jorge cano',
+      description: 'Google Expert',
+      imgUrl: JorgeImage,
+    },
+    startAt: generarStartAt('12:30'),
+    title: 'Primeros pasos en programación 🚶‍♂️',
+    durationInMinutes: 30,
+  },
 ]
 
 export const Schedule = () => {
@@ -184,8 +217,12 @@ export const Schedule = () => {
   useEffect(() => {
     if (activeTab === 'Conferencia') {
       setArrayRender(LIST_OF_TALKS)
-    } else if (activeTab === 'Talleres') {
+    }
+    if (activeTab === 'Talleres') {
       setArrayRender(LIST_OF_WORKSHOPS)
+    }
+    if (activeTab === 'Experiencias') {
+      setArrayRender(LIST_OF_EXPERIENCES)
     }
   }, [activeTab])
   return (
@@ -195,21 +232,21 @@ export const Schedule = () => {
       </h2>
       <p className="mt-4 text-center text-xl text-white/80 [text-wrap:balance]">
         <button
-          className={`mx-2 text-midu-primary font-bold ${activeTab === 'Conferencia' ? 'rounded-full bg-indigo-900 px-3 py-1' : ''} `}
+          className={`text-midu-primary mx-2 font-bold ${activeTab === 'Conferencia' ? 'rounded-full bg-indigo-900 px-3 py-1' : ''} `}
           onClick={() => setActiveTab('Conferencia')}
         >
           Conferencia
         </button>{' '}
         |{' '}
         <button
-          className={`mx-2 text-midu-primary font-bold ${activeTab === 'Talleres' ? 'rounded-full bg-indigo-900 px-3 py-1' : ''} `}
+          className={`text-midu-primary mx-2 font-bold ${activeTab === 'Talleres' ? 'rounded-full bg-indigo-900 px-3 py-1' : ''} `}
           onClick={() => setActiveTab('Talleres')}
         >
           Talleres
         </button>{' '}
         |{' '}
         <button
-          className={`mx-2 text-midu-primary font-bold ${activeTab === 'Experiencias' ? 'rounded-full bg-indigo-900 px-3 py-1' : ''} `}
+          className={`text-midu-primary mx-2 font-bold ${activeTab === 'Experiencias' ? 'rounded-full bg-indigo-900 px-3 py-1' : ''} `}
           onClick={() => setActiveTab('Experiencias')}
         >
           Experiencias
