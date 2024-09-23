@@ -4,15 +4,15 @@ import createGlobe from 'cobe'
 
 import { useState, useEffect, useRef } from 'react'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 const Countdown = () => {
-  const [timeLeft, setTimeLeft] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(null)
 
   useEffect(() => {
     const calculateTimeLeft = () => {
-      const difference = +new Date('2024-11-09') - +new Date();
-      let timeLeft = {};
+      const difference = +new Date('2024-11-09') - +new Date()
+      let timeLeft = {}
 
       if (difference > 0) {
         timeLeft = {
@@ -20,23 +20,23 @@ const Countdown = () => {
           hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
           minutes: Math.floor((difference / 1000 / 60) % 60),
           seconds: Math.floor((difference / 1000) % 60),
-        };
+        }
       }
 
-      return timeLeft;
-    };
+      return timeLeft
+    }
 
-    setTimeLeft(calculateTimeLeft());
+    setTimeLeft(calculateTimeLeft())
 
     const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
+      setTimeLeft(calculateTimeLeft())
+    }, 1000)
 
-    return () => clearInterval(timer);
-  }, []);
+    return () => clearInterval(timer)
+  }, [])
 
   if (!timeLeft) {
-    return null; // Or a loading placeholder
+    return null // Or a loading placeholder
   }
 
   return (
@@ -61,14 +61,10 @@ const Countdown = () => {
         <div className="text-lg md:text-2xl">Segundos</div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export const Hero = () => {
-  const provider = new GoogleAuthProvider()
-
-  const auth = getAuth()
-  auth.languageCode = 'es'
   const router = useRouter()
 
   const canvasRef = useRef(null)
@@ -92,10 +88,10 @@ export const Hero = () => {
         glowColor: [0.15, 0.15, 0.15],
         markerColor: [100, 100, 100],
         markers: [
-          { location: [37.7595, -122.4367], size: 0.03 }, // San Francisco
-          { location: [40.7128, -74.006], size: 0.03 }, // New York City
-          { location: [35.6895, 139.6917], size: 0.03 }, // Tokyo
-          { location: [28.7041, 77.1025], size: 0.03 }, // Delhi
+          // { location: [37.7595, -122.4367], size: 0.03 }, // San Francisco
+          // { location: [40.7128, -74.006], size: 0.03 }, // New York City
+          // { location: [35.6895, 139.6917], size: 0.03 }, // Tokyo
+          // { location: [28.7041, 77.1025], size: 0.03 }, // Delhi
         ],
         onRender: (state) => {
           state.phi = phi
@@ -109,13 +105,12 @@ export const Hero = () => {
     }
   }, [])
 
-  // Parámetros de búsqueda
-  const searchParams = useSearchParams()
-  const org = searchParams.get('org')
-
   const handleGoogleLogin = async (type) => {
+    const provider = new GoogleAuthProvider()
+    const auth = getAuth()
+    auth.languageCode = 'es'
     await signInWithPopup(auth, provider)
-    router.push(`/registro?type=${type}&org=${org || 'uc'}`)
+    router.push(`/registro?type=${type}`)
   }
   return (
     <div className="px-3 pt-4">

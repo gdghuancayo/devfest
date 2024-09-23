@@ -225,6 +225,7 @@ export default function Form() {
 
     const db = getFirestore()
     await setDoc(doc(db, 'register', loginInfo.uid), {
+      type,
       registerID: loginInfo.uid,
       name,
       correo,
