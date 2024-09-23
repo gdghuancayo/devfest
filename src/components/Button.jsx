@@ -1,15 +1,121 @@
-import Link from 'next/link'
-import clsx from 'clsx'
+import { Slot } from "@radix-ui/react-slot";
+import { RiLoader2Fill } from "@remixicon/react";
+import React from "react";
+import { tv } from "tailwind-variants";
 
-export function Button({ className, ...props }) {
-  className = clsx(
-    'inline-flex justify-center rounded-2xl bg-blue-600 p-4 text-base font-semibold text-white hover:bg-blue-500 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 active:text-white/70',
-    className,
-  )
+import { cx, focusRing } from "@/lib/utils";
 
-  return typeof props.href === 'undefined' ? (
-    <button className={className} {...props} />
-  ) : (
-    <Link className={className} {...props} />
-  )
-}
+const buttonVariants = tv({
+  base: [
+    // base
+    "relative inline-flex items-center justify-center rounded-lg px-3 py-1.5 text-center text-sm font-medium transition-all duration-100 ease-in-out",
+    // disabled
+    "disabled:pointer-events-none disabled:shadow-none",
+    // focus
+    focusRing,
+  ],
+  variants: {
+    variant: {
+      primary: [
+        // border
+        "border border-transparent shadow-sm ",
+        // text color
+        "text-white dark:text-white",
+        // background color
+        "bg-[#129EAF]/80 dark:bg-[#129EAF]/70",
+        // hover color
+        "hover:bg-[#129EAF] dark:hover:bg-[#129EAF]/60",
+        // disabled
+        "disabled:bg-[#129EAF]/10 disabled:text-[#129EAF]/60",
+        "disabled:dark:bg-[#129EAF] disabled:dark:text-[#129EAF]/80",
+      ],
+      secondary: [
+        // text color
+        "text-gray-900 dark:text-gray-50",
+        // background color
+        "bg-white dark:bg-gray-950",
+        //hover color
+        "hover:bg-gray-50 dark:hover:bg-gray-900/80",
+        // disabled
+        "disabled:text-gray-400",
+        "disabled:dark:text-gray-600",
+      ],
+      light: [
+        // base
+        "shadow-none",
+        // border
+        "border-transparent",
+        // text color
+        "text-gray-900 dark:text-gray-50",
+        // background color
+        "bg-gray-200 dark:bg-gray-900",
+        // hover color
+        "hover:bg-gray-300/70 dark:hover:bg-gray-800/80",
+        // disabled
+        "disabled:bg-gray-100 disabled:text-gray-400",
+        "disabled:dark:bg-gray-800 disabled:dark:text-gray-600",
+      ],
+      destructive: [
+        // text color
+        "text-white",
+        // border
+        "border-transparent",
+        // background color
+        "bg-red-600 dark:bg-red-700",
+        // hover color
+        "hover:bg-red-700 dark:hover:bg-red-600",
+        // disabled
+        "disabled:bg-red-300 disabled:text-white",
+        "disabled:dark:bg-red-950 disabled:dark:text-red-400",
+      ],
+    },
+  },
+  defaultVariants: {
+    variant: "primary",
+  },
+});
+
+const Button = React.forwardRef(
+  (
+    {
+      asChild,
+      isLoading = false,
+      loadingText,
+      className,
+      disabled,
+      variant,
+      children,
+      ...props
+    },
+    forwardedRef
+  ) => {
+    const Component = asChild ? Slot : "button";
+    return (
+      <Component
+        ref={forwardedRef}
+        className={cx(buttonVariants({ variant }), className)}
+        disabled={disabled || isLoading}
+        {...props}
+      >
+        {isLoading ? (
+          <span className="pointer-events-none flex shrink-0 items-center justify-center gap-1.5">
+            <RiLoader2Fill
+              className="size-4 shrink-0 animate-spin"
+              aria-hidden="true"
+            />
+            <span className="sr-only">
+              {loadingText ? loadingText : "Loading"}
+            </span>
+            {loadingText ? loadingText : children}
+          </span>
+        ) : (
+          children
+        )}
+      </Component>
+    );
+  }
+);
+
+Button.displayName = "Button";
+
+export { Button, buttonVariants };

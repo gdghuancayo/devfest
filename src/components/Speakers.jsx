@@ -80,7 +80,7 @@ const speakers = [
     name: 'Lucero Beatriz 🇵🇪',
     role: 'Gobierno Regional de Junín',
     image: LuceroImage,
-  }
+  },
 ]
 
 function ImageClipPaths({ id, ...props }) {
@@ -121,11 +121,7 @@ export function Speakers() {
   }, [])
 
   return (
-    <section
-      id="speakers"
-      aria-labelledby="speakers-title"
-      className="py-20 mt-5 sm:py-32"
-    >
+    <div className="py-20 mt-5 sm:py-32">
       <ImageClipPaths id={id} />
       <Container>
         <div className="mx-auto lg:mx-0">
@@ -150,7 +146,7 @@ export function Speakers() {
             >
               {speakers.map((speaker, speakerIndex) => (
                 <div key={speakerIndex}>
-                  <div className="group relative h-[17.5rem] transform overflow-hidden rounded-4xl">
+                  <div className="group relative sm:w-auto h-[17.5rem] transform overflow-hidden rounded-4xl">
                     <div
                       className={clsx(
                         'absolute bottom-6 left-0 right-4 top-0 rounded-4xl border transition duration-300 group-hover:scale-95 xl:right-6',
@@ -186,6 +182,6 @@ export function Speakers() {
           </TabPanels>
         </TabGroup>
       </Container>
-    </section>
+    </div>
   )
 }

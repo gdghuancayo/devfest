@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from 'react'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { getFirestore, doc, onSnapshot } from 'firebase/firestore'
+import { getFirestore, doc, getDoc } from 'firebase/firestore'
 
 const AppContext = createContext()
 
@@ -15,38 +15,33 @@ function AppProvider(props) {
   const db = getFirestore()
 
   useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
+    onAuthStateChanged(auth, (user) => {
       if (user) {
-        // console.log(user)
-        
-        setNewLoginState(true)
-        setNewLoginInfo({
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email,
-          photo: user.photoURL,
-        })
-        setAuthLoading(false)
-
-        // const docRef = doc(db, 'users', user.uid)
-
-        // onSnapshot(
-        //   docRef,
-        //   (querySnapshot) => {
-        //     let userInfoCopy = querySnapshot.data()
-        //     setNewUserInfo(userInfoCopy)
-        //     setNewLoginInfo({
-        //       uid: user.uid,
-        //       name: user.displayName,
-        //       email: user.email,
-        //       photo: user.photoURL,
-        //     })
-        //     setAuthLoading(false)
-        //   },
-        //   (error) => {
-        //     console.log(error)
-        //   },
-        // )
+        const execute = async () => {
+          const docRef = doc(db, 'register', user.uid)
+          const docSnap = await getDoc(docRef)
+          
+          if (docSnap.exists()) {
+            setNewLoginInfo({
+              uid: user.uid,
+              name: user.displayName,
+              email: user.email,
+              photo: user.photoURL,
+              data: docSnap.data(),
+            })
+          } else {
+            setNewLoginInfo({
+              uid: user.uid,
+              name: user.displayName,
+              email: user.email,
+              photo: user.photoURL,
+              data: null,
+            })
+          }
+          setNewLoginState(true)
+          setAuthLoading(false)
+        }
+        execute()
       } else {
         setNewLoginState(false)
         setAuthLoading(false)
@@ -57,6 +52,7 @@ function AppProvider(props) {
     })
     window.addEventListener('offline', async () => {
       setNewErrorState(true)
+      alert('Conexión de internet perdida')
     })
   }, [])
 

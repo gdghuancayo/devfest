@@ -2,15 +2,16 @@
 
 import useScroll from '@/lib/use-scroll'
 import { cx } from '@/lib/utils'
-import { RiCloseLine, RiMenuLine } from '@remixicon/react'
 import Link from 'next/link'
 import React from 'react'
-import { Button } from './TremorButton'
 import { UsersRound, Calendar, Sparkles, Gift } from 'lucide-react'
+import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import { useRouter } from 'next/navigation'
 
 export function Header() {
   const scrolled = useScroll(15)
   const [open, setOpen] = React.useState(false)
+  const router = useRouter()
 
   React.useEffect(() => {
     const mediaQuery = window.matchMedia('(min-width: 768px)')
@@ -26,6 +27,13 @@ export function Header() {
     }
   }, [])
 
+  const login = async () => {
+    const provider = new GoogleAuthProvider()
+    const auth = getAuth()
+    auth.languageCode = 'es'
+    await signInWithPopup(auth, provider)
+    router.push(`/panel`)
+  }
   return (
     <header
       className={cx(
@@ -107,25 +115,20 @@ export function Header() {
             </div>
           </nav>
 
-          <button className="hidden h-10 px-4 py-2 font-bold text-white rounded-lg bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-900 md:block">
-            <a href="/login">Ingresar</a>
+          <button
+            className="hidden h-10 px-4 py-2 font-bold text-white rounded-lg bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-900 md:block"
+            onClick={() => login()}
+          >
+            Ingresar
           </button>
 
           <div className="flex gap-x-2 md:hidden">
-            <button className="h-10 px-4 py-2 font-bold text-white rounded-lg bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-900">
-              <a href="/login">Ingresar</a>
-            </button>
-            <Button
-              onClick={() => setOpen(!open)}
-              variant="light"
-              className="p-2 aspect-square"
+            <button
+              className="h-10 px-4 py-2 font-bold text-white rounded-lg bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-900"
+              onClick={() => login()}
             >
-              {open ? (
-                <RiCloseLine aria-hidden="true" className="size-5" />
-              ) : (
-                <RiMenuLine aria-hidden="true" className="size-5" />
-              )}
-            </Button>
+              Ingresar
+            </button>
           </div>
         </div>
         <nav

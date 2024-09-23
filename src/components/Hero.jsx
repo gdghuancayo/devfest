@@ -40,7 +40,7 @@ const Countdown = () => {
   }
 
   return (
-    <div className="flex items-center justify-center mt-20 font-semibold text-white text-7xl">
+    <div className="flex items-center justify-center mt-20 text-4xl font-semibold text-white md:text-7xl">
       <div className="mx-2 text-center">
         <div>{timeLeft.days || '0'}</div>
         <div className="text-lg md:text-2xl">Días</div>
@@ -55,8 +55,8 @@ const Countdown = () => {
         <div>{timeLeft.minutes || '0'}</div>
         <div className="text-lg md:text-2xl">Minutos</div>
       </div>
-      <div className="mx-2 -mt-12">:</div>
-      <div className="mx-2 text-center">
+      <div className="hidden mx-2 -mt-12 md:block">:</div>
+      <div className="hidden mx-2 text-center md:block">
         <div>{timeLeft.seconds || '0'}</div>
         <div className="text-lg md:text-2xl">Segundos</div>
       </div>
@@ -77,8 +77,8 @@ export const Hero = () => {
         devicePixelRatio: 2,
         width: 1200 * 2,
         height: 1200 * 2,
-        phi: 0,
-        theta: -0.3,
+        phi: -1.31, // Aproximadamente el valor para centrar en Perú
+        theta: 0.15, // Ajusta según sea necesario para ver Perú
         dark: 1,
         diffuse: 1.2,
         mapSamples: 25000,
@@ -88,14 +88,11 @@ export const Hero = () => {
         glowColor: [0.15, 0.15, 0.15],
         markerColor: [100, 100, 100],
         markers: [
-          // { location: [37.7595, -122.4367], size: 0.03 }, // San Francisco
-          // { location: [40.7128, -74.006], size: 0.03 }, // New York City
-          // { location: [35.6895, 139.6917], size: 0.03 }, // Tokyo
-          // { location: [28.7041, 77.1025], size: 0.03 }, // Delhi
+          { location: [-9.19, -75.0152], size: 0.03 }, // Marcador para Perú
         ],
         onRender: (state) => {
           state.phi = phi
-          phi += 0.0002
+          phi += 0.0004 // Incremento ajustado para mayor velocidad
         },
       })
 
@@ -105,19 +102,17 @@ export const Hero = () => {
     }
   }, [])
 
-  const handleGoogleLogin = async (type) => {
+  const register = async (type) => {
     const provider = new GoogleAuthProvider()
     const auth = getAuth()
     auth.languageCode = 'es'
     await signInWithPopup(auth, provider)
     router.push(`/registro?type=${type}`)
   }
+
   return (
     <div className="px-3 pt-4">
-      <section
-        aria-labelledby="global-database-title"
-        className="relative flex flex-col items-center justify-center w-full max-w-6xl pt-24 mx-auto mt-20 overflow-hidden shadow-xl rounded-3xl bg-gray-950 shadow-black/30"
-      >
+      <div className="relative flex flex-col items-center justify-center w-full max-w-6xl pt-24 mx-auto mt-20 overflow-hidden shadow-xl rounded-3xl bg-gray-950 shadow-black/30">
         <div className="absolute top-[17rem] size-[40rem] rounded-full bg-indigo-800 blur-3xl md:top-[20rem]" />
         <div className="z-10 inline-block rounded-lg border border-indigo-400/20 bg-indigo-800/20 px-3 py-2.5 text-lg font-semibold leading-4 tracking-tight">
           <span className="text-transparent bg-gradient-to-b from-indigo-200 to-indigo-400 bg-clip-text">
@@ -165,7 +160,7 @@ export const Hero = () => {
           </svg>
           DevFest
         </h2>
-        <div className="z-10 flex -mt-4 text-lg text-white opacity-80">
+        <div className="z-10 flex mt-1 text-white truncate text-md opacity-80 md:-mt-4 md:text-lg">
           <date>Noviembre 09</date>
           <svg
             aria-hidden="true"
@@ -188,21 +183,21 @@ export const Hero = () => {
           </a>
         </div>
         <canvas
-          className="absolute top-[7.1rem] z-20 mt-4 aspect-square size-full max-w-fit md:top-[12rem]"
+          className="absolute top-[7.1rem] z-20 mt-14 aspect-square size-full max-w-fit md:top-[12rem] md:mt-6"
           ref={canvasRef}
           style={{ width: 1200, height: 1200 }}
         />
-        <div className="z-20 mt-28 h-[36rem] w-full overflow-hidden md:-mt-36">
+        <div className="z-20 mt-20 h-[36rem] w-full overflow-hidden md:-mt-36">
           <div className="absolute bottom-0 w-full h-3/5 bg-gradient-to-b from-transparent via-gray-950/95 to-gray-950" />
-          <div className="absolute max-w-6xl m-auto inset-x-6 bottom-12 md:top-2/3">
-            <div className="grid grid-cols-1 gap-x-10 gap-y-6 rounded-4xl border border-white/[15%] bg-white/[3%] px-6 py-6 shadow-xl backdrop-blur md:-mt-6 md:grid-cols-7 md:p-8">
-              <div className="flex flex-col gap-2 md:col-span-3 md:mt-6">
-                <h3 className="text-3xl text-transparent bg-gradient-to-b from-indigo-300 to-indigo-500 bg-clip-text">
+          <div className="max-w-lg m-auto inset-x-6 bottom-12 md:absolute md:top-2/3 md:max-w-5xl">
+            <div className="grid grid-cols-1 gap-x-4 gap-y-6 rounded-4xl border border-white/[15%] bg-white/[3%] px-6 py-6 shadow-xl backdrop-blur md:-mt-6 md:grid-cols-5 md:p-8 lg:grid-cols-6">
+              <div className="flex flex-col gap-2 md:mt-6 lg:col-span-2">
+                <h3 className="text-2xl text-transparent bg-gradient-to-b from-indigo-300 to-indigo-500 bg-clip-text lg:text-3xl">
                   Regístrate ahora
                 </h3>
-                <p className="text-lg leading-6 text-indigo-200/80 md:mr-10">
-                  Ingresa o crea tu cuenta de Google. Cupos muy limitados, no
-                  pierdas tu entrada.
+                <p className="text-md leading-6 text-indigo-200/80 lg:mr-14 lg:text-[1.05rem]">
+                  Ingresa o crea tu cuenta de Google. <span className='hidden lg:inline'>Cupos muy limitados, no
+                  pierdas tu entrada.</span>
                 </p>
               </div>
               <article
@@ -212,8 +207,10 @@ export const Hero = () => {
                 }}
               >
                 <div className="BuyTicket-info">
-                  <h3 className="BuyTicket-info-title">Ticket Online</h3>
-                  <p className="BuyTicket-info-description">
+                  <h3 className="truncate BuyTicket-info-title">
+                    Ticket Online
+                  </h3>
+                  <p className="truncate BuyTicket-info-description sm:overflow-visible sm:whitespace-normal">
                     Disfruta del DevFest desde cualquier lugar vía streaming
                   </p>
                 </div>
@@ -225,7 +222,7 @@ export const Hero = () => {
                 <div className="BuyTicket-cta">
                   <button
                     className="bg-gray-800 rounded-lg"
-                    onClick={() => handleGoogleLogin('online')}
+                    onClick={() => register('online')}
                   >
                     Regístrate Online
                   </button>
@@ -238,8 +235,10 @@ export const Hero = () => {
                 }}
               >
                 <div className="BuyTicket-info">
-                  <h3 className="BuyTicket-info-title">Ticket Presencial</h3>
-                  <p className="BuyTicket-info-description">
+                  <h3 className="truncate BuyTicket-info-title">
+                    Ticket Presencial
+                  </h3>
+                  <p className="truncate BuyTicket-info-description sm:overflow-visible sm:whitespace-normal">
                     Asiste en persona a la Universidad Continental
                   </p>
                 </div>
@@ -251,7 +250,7 @@ export const Hero = () => {
                 <div className="BuyTicket-cta">
                   <button
                     className="px-4 py-2 font-bold text-white rounded-lg bg-gradient-to-r from-indigo-900 via-indigo-800 to-indigo-900"
-                    onClick={() => handleGoogleLogin('presencial')}
+                    onClick={() => register('presencial')}
                   >
                     Regístrate Presencial
                   </button>
@@ -260,7 +259,7 @@ export const Hero = () => {
             </div>
           </div>
         </div>
-      </section>
+      </div>
       <Countdown />
     </div>
   )

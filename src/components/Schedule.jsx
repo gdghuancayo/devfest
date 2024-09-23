@@ -238,7 +238,7 @@ export const Schedule = () => {
     }
   }, [activeTab])
   return (
-    <section id="agenda" className="mx-auto max-w-[802px] px-4 pb-40 pt-20">
+    <section id="agenda" className="mx-auto max-w-[802px] px-4 pb-40 pt-10">
       <h2 className="max-w-2xl mx-auto text-4xl font-medium tracking-tighter text-center text-white font-display sm:text-5xl">
         Agenda
       </h2>
@@ -264,7 +264,7 @@ export const Schedule = () => {
           Experiencias
         </button>
       </p>
-      <div className="w-full mx-auto mt-2 space-y-4 text-center">
+      {/* <div className="w-full mx-auto mt-2 space-y-4 text-center">
         <span className="inline-flex flex-wrap items-center justify-center px-3 py-1 text-sm font-medium text-white rounded-full text-primary-300 shadow-inset bg-sky-950 shadow-white">
           <span className="flex items-center gap-1 mr-1 opacity-75">
             <svg
@@ -284,10 +284,10 @@ export const Schedule = () => {
           </span>{' '}
           <span>{timezone}</span>
         </span>
-      </div>
+      </div> */}
       <div className="flex flex-col gap-8 mt-12 md:hidden lg:mt-16">
         {arrayRender.map((talk) => (
-          <AgendaItemMobile key={talk.speaker.name} {...talk} />
+          <AgendaItem key={talk.speaker.name} {...talk} />
         ))}
       </div>
       <div className="flex-col hidden gap-8 mt-12 md:flex lg:mt-16">
@@ -309,10 +309,10 @@ const AgendaItem = ({ startAt, durationInMinutes, title, speaker }) => {
       </p>
       <div className="flex-1">
         <header className="flex flex-row items-center gap-x-2">
-          <h4 className="font-medium leading-tight text-transparent bg-gradient-to-b from-indigo-300 to-indigo-500 bg-clip-text">
+          <h4 className="font-medium leading-tight text-transparent truncate bg-gradient-to-b from-indigo-300 to-indigo-500 bg-clip-text">
             {speaker.name}
           </h4>
-          <span className="text-white/70">- {speaker.description}</span>
+          <span className="truncate text-white/70">- {speaker.description}</span>
         </header>
         <h4 className="mt-2 text-xl font-bold text-white">{title}</h4>
         <div className="flex items-center gap-3">
@@ -325,32 +325,6 @@ const AgendaItem = ({ startAt, durationInMinutes, title, speaker }) => {
             }}
           />
         </div>
-      </div>
-    </article>
-  )
-}
-
-const AgendaItemMobile = ({ startAt, durationInMinutes, title, speaker }) => {
-  const time = useTime({ timestamp: startAt, durationInMinutes })
-
-  return (
-    <article>
-      <header className="flex items-center gap-x-4">
-        <h4 className="text-sm text-transparent bg-gradient-to-b from-indigo-300 to-indigo-500 bg-clip-text">
-          {speaker.name}
-        </h4>
-        <div className="bg-midu-primary h-[1px] w-full flex-1"></div>
-        <span className="text-sm text-white/50">
-          {time?.startAt} - {time?.endAt}
-        </span>
-      </header>
-      <div className="flex items-center mt-3 gap-x-3">
-        <Image
-          className="object-cover object-top w-16 h-16 rounded-full"
-          src={speaker.imgUrl}
-          alt={`Foto de ${speaker.name}`}
-        />
-        <h5 className="font-bold text-white">{title}</h5>
       </div>
     </article>
   )
