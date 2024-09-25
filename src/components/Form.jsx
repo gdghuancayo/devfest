@@ -167,7 +167,7 @@ const getOrg = (org) => {
 
 export default function Form() {
   // Contexto
-  const { loginInfo } = useContext(AppContext)
+  const { loginInfo, setNewLoginInfo } = useContext(AppContext)
   // Parámetros de búsqueda
   const searchParams = useSearchParams()
   const pathname = usePathname()
@@ -238,7 +238,23 @@ export default function Form() {
     })
 
     const startsRef = doc(db, 'stats', 'entradas')
-    
+
+    setNewLoginInfo({
+      ...loginInfo,
+      data: {
+        type,
+        registerID: loginInfo.uid,
+        name,
+        correo,
+        phone,
+        dni,
+        organization,
+        program,
+        activities,
+        dniData: dniData.resultado,
+      },
+    })
+
     if (type === 'Presencial') {
       if (organization === 'Universidad Continental') {
         await updateDoc(startsRef, {

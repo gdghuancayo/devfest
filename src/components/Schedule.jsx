@@ -188,7 +188,7 @@ const LIST_OF_EXPERIENCES = [
       imgUrl: GamerImage,
     },
     startAt: generarStartAt('10:30'),
-    title: 'VS Gaming 🎮, VR / AR, Drones y más',
+    title: 'VS Gaming 🎮, VR y más',
     durationInMinutes: 30,
   },
   {
@@ -218,9 +218,53 @@ const LIST_OF_EXPERIENCES = [
       imgUrl: AfterImage,
     },
     startAt: generarStartAt('20:30'),
-    title: 'Música, premios y más 🎉'
+    title: 'Música, comida y más 🎉'
     },
 ]
+
+const Selector = ({ activeTab, setActiveTab }) => {
+  const options = ['Conferencia', 'Talleres', 'Experiencias'];
+
+  return (
+     <div className="mt-8 text-xl text-center text-white/80" id="agenda">
+      {/* Para pantallas md y superiores */}
+      <div className="hidden md:inline-block">
+        <div className="inline-flex overflow-hidden rounded-md">
+          {options.map((option, index) => (
+            <button
+              key={option}
+              onClick={() => setActiveTab(option)}
+              className={`border-2 border-opacity-50 border-indigo-900 px-6 py-2 font-bold focus:outline-none transition-all duration-300 ${
+                activeTab === option
+                  ? 'text-white bg-gradient-to-r from-purple-500 to-indigo-600'
+                  : 'text-white bg-transparent hover:bg-gradient-to-r hover:from-purple-700 hover:to-indigo-900'
+              } ${index === 0 ? 'rounded-l-md' : ''} ${
+                index === options.length - 1 ? 'rounded-r-md' : ''
+              }`}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      </div>
+      {/* Para pantallas menores a md */}
+      <div className="md:hidden">
+        <select
+          value={activeTab}
+          onChange={(e) => setActiveTab(e.target.value)}
+          className="block w-full px-4 py-2 mt-2 font-bold text-center text-white rounded-md bg-gradient-to-r from-purple-500 to-indigo-600 focus:outline-none"
+        >
+          {options.map((option) => (
+            <option key={option} value={option} className="text-black">
+              {option}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
+  );
+};
+
 
 export const Schedule = () => {
   const timezone = useGetTimezone()
@@ -242,28 +286,7 @@ export const Schedule = () => {
       <h2 className="max-w-2xl mx-auto text-4xl font-medium tracking-tighter text-center text-white font-display sm:text-5xl">
         Agenda
       </h2>
-      <p className="mt-4 text-center text-xl text-white/80 [text-wrap:balance]">
-        <button
-          className={`text-midu-primary mx-2 font-bold ${activeTab === 'Conferencia' ? 'rounded-full bg-indigo-900 px-3 py-1' : ''} `}
-          onClick={() => setActiveTab('Conferencia')}
-        >
-          Conferencia
-        </button>{' '}
-        |{' '}
-        <button
-          className={`text-midu-primary mx-2 font-bold ${activeTab === 'Talleres' ? 'rounded-full bg-indigo-900 px-3 py-1' : ''} `}
-          onClick={() => setActiveTab('Talleres')}
-        >
-          Talleres
-        </button>{' '}
-        |{' '}
-        <button
-          className={`text-midu-primary mx-2 font-bold ${activeTab === 'Experiencias' ? 'rounded-full bg-indigo-900 px-3 py-1' : ''} `}
-          onClick={() => setActiveTab('Experiencias')}
-        >
-          Experiencias
-        </button>
-      </p>
+      <Selector activeTab={activeTab} setActiveTab={setActiveTab} />
       {/* <div className="w-full mx-auto mt-2 space-y-4 text-center">
         <span className="inline-flex flex-wrap items-center justify-center px-3 py-1 text-sm font-medium text-white rounded-full text-primary-300 shadow-inset bg-sky-950 shadow-white">
           <span className="flex items-center gap-1 mr-1 opacity-75">
@@ -285,12 +308,12 @@ export const Schedule = () => {
           <span>{timezone}</span>
         </span>
       </div> */}
-      <div className="flex flex-col gap-8 mt-12 md:hidden lg:mt-16">
+      <div className="flex flex-col gap-8 mt-12 md:hidden">
         {arrayRender.map((talk) => (
           <AgendaItem key={talk.speaker.name} {...talk} />
         ))}
       </div>
-      <div className="flex-col hidden gap-8 mt-12 md:flex lg:mt-16">
+      <div className="flex-col hidden gap-8 mt-12 md:flex">
         {arrayRender.map((talk) => (
           <AgendaItem key={talk.speaker.name} {...talk} />
         ))}
@@ -323,6 +346,7 @@ const AgendaItem = ({ startAt, durationInMinutes, title, speaker }) => {
             style={{
               maskImage: 'linear-gradient(to left, black 50%, transparent 90%)',
             }}
+            quality={75}
           />
         </div>
       </div>

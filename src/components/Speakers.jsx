@@ -121,7 +121,7 @@ export function Speakers() {
   }, [])
 
   return (
-    <div className="py-20 mt-5 sm:py-32">
+    <div className="py-20 mt-5 sm:py-32" id="speakers">
       <ImageClipPaths id={id} />
       <Container>
         <div className="mx-auto lg:mx-0">
@@ -146,7 +146,7 @@ export function Speakers() {
             >
               {speakers.map((speaker, speakerIndex) => (
                 <div key={speakerIndex}>
-                  <div className="group relative sm:w-auto h-[17.5rem] transform overflow-hidden rounded-4xl">
+                  <div className="group relative h-[17.5rem] transform overflow-hidden rounded-4xl sm:w-auto">
                     <div
                       className={clsx(
                         'absolute bottom-6 left-0 right-4 top-0 rounded-4xl border transition duration-300 group-hover:scale-95 xl:right-6',
@@ -165,8 +165,8 @@ export function Speakers() {
                         className="absolute inset-0 object-cover w-full h-full transition duration-300 group-hover:scale-110"
                         src={speaker.image}
                         alt=""
-                        priority
                         sizes="(min-width: 1280px) 17.5rem, (min-width: 1024px) 25vw, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
+                        quality={75}
                       />
                     </div>
                   </div>

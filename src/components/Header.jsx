@@ -2,7 +2,6 @@
 
 import useScroll from '@/lib/use-scroll'
 import { cx } from '@/lib/utils'
-import Link from 'next/link'
 import React from 'react'
 import { UsersRound, Calendar, Sparkles, Gift } from 'lucide-react'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
@@ -34,6 +33,10 @@ export function Header() {
     await signInWithPopup(auth, provider)
     router.push(`/panel`)
   }
+  function scrollToTitle(idref) {
+    const titleElement = document.getElementById(idref)
+    titleElement.scrollIntoView({ behavior: 'smooth' })
+  }
   return (
     <header
       className={cx(
@@ -46,7 +49,7 @@ export function Header() {
     >
       <div className="w-full md:my-auto">
         <div className="relative flex items-center justify-between">
-          <Link href={'/'} aria-label="Home">
+          <div>
             <span className="sr-only">Devfest Huancayo</span>
             <div className="flex">
               <svg
@@ -64,9 +67,7 @@ export function Header() {
                   stroke-linejoin="round"
                 />
               </svg>
-              <p className="mx-2 text-2xl font-bold text-gray-900 dark:text-gray-50">
-                GDG
-              </p>
+              <p className="mx-2 text-2xl font-bold text-white">GDG</p>
               <svg
                 className="w-auto h-10"
                 viewBox="0 0 168 413"
@@ -83,35 +84,35 @@ export function Header() {
                 />
               </svg>
             </div>
-          </Link>
+          </div>
           <nav className="hidden md:absolute md:left-1/2 md:top-1/2 md:block md:-translate-x-1/2 md:-translate-y-1/2 md:transform">
             <div className="flex items-center gap-10 font-medium">
-              <Link
-                className="flex px-2 py-1 text-gray-900 dark:text-gray-50"
-                href={'/'}
+              <button
+                className="flex px-2 py-1 text-gray-50"
+                onClick={() => scrollToTitle('speakers')}
               >
                 <UsersRound className="w-6 h-6 mr-2" /> Speakers
-              </Link>
-              <Link
-                className="flex px-2 py-1 text-gray-900 dark:text-gray-50"
-                href={'/'}
+              </button>
+              <button
+                className="flex px-2 py-1 text-gray-50"
+                onClick={() => scrollToTitle('agenda')}
               >
                 <Calendar className="w-6 h-6 mr-2" /> Agenda
-              </Link>
-              <Link
-                className="flex px-2 py-1 text-gray-900 dark:text-gray-50"
-                href={'/'}
+              </button>
+              <button
+                className="flex px-2 py-1 text-gray-50"
+                onClick={() => scrollToTitle('gifts')}
               >
                 <Gift className="w-6 h-6 mr-2" />
                 Regalos
-              </Link>
-              <Link
-                className="flex px-2 py-1 text-gray-900 dark:text-gray-50"
-                href={'/'}
+              </button>
+              <button
+                className="flex px-2 py-1 text-gray-50"
+                onClick={() => scrollToTitle('sponsors')}
               >
                 <Sparkles className="w-6 h-6 mr-2" />
                 Patrocinadores
-              </Link>
+              </button>
             </div>
           </nav>
 
@@ -131,24 +132,6 @@ export function Header() {
             </button>
           </div>
         </div>
-        <nav
-          className={cx(
-            'my-6 flex text-lg ease-in-out will-change-transform md:hidden',
-            open ? '' : 'hidden',
-          )}
-        >
-          <ul className="space-y-4 font-medium">
-            <li onClick={() => setOpen(false)}>
-              <Link href={'/'}>Home</Link>
-            </li>
-            <li onClick={() => setOpen(false)}>
-              <Link href={'/'}>About</Link>
-            </li>
-            <li onClick={() => setOpen(false)}>
-              <Link href={'/'}>Updates</Link>
-            </li>
-          </ul>
-        </nav>
       </div>
     </header>
   )
