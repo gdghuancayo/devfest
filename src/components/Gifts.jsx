@@ -9,20 +9,18 @@ function InstaxImage({ className, src, width, height, alt, caption }) {
   return (
     <figure
       className={cx(
-        'bg-indigo h-fit overflow-hidden rounded-lg shadow-xl shadow-black/10 ring-1 ring-black/5 transition hover:-translate-y-0.5 hover:shadow-black/20 dark:bg-gray-900 dark:shadow-indigo-500/5 dark:ring-white/20 dark:hover:shadow-indigo-900/20',
+        'bg-indigo h-fit overflow-hidden rounded-lg bg-gray-900 shadow-xl shadow-indigo-500/5 ring-1 ring-white/20 transition hover:-translate-y-0.5 hover:shadow-indigo-900/20',
         className,
       )}
     >
-      <div className="p-2 bg-gray-50 dark:bg-gray-900">
+      <div className="p-2 bg-gray-900">
         <div className="relative overflow-hidden rounded">
           <div className="absolute inset-0 shadow-[inset_0px_0px_3px_0px_rgb(0,0,0,1)]"></div>
           <Image src={src} alt={alt} width={width} height={height} />
         </div>
       </div>
       <div
-        className={cx(
-          'px-2 pb-2 pt-2 font-handwriting text-2xl text-gray-700 dark:text-gray-300',
-        )}
+        className={cx('px-2 pb-2 pt-2 font-handwriting text-2xl text-gray-300')}
       >
         <figcaption className="text-center">{caption}</figcaption>
       </div>
@@ -66,7 +64,7 @@ export function Gifts() {
             caption="x 3 Refrigerios"
           />
           <InstaxImage
-            className="-mr-10 w-[16rem] rotate-1 mt-8 md:mt-0"
+            className="-mr-10 mt-8 w-[16rem] rotate-1 md:mt-0"
             src={StikerImage}
             alt="Swags"
             width={640}

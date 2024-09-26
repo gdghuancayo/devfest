@@ -4,8 +4,14 @@ import { useEffect } from 'react'
 
 export default function Error({ error, reset }) {
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error(error)
+
+    // Recarga la página 1 segundo después del error
+    const timeout = setTimeout(() => {
+      window.location.reload()
+    }, 1000)
+
+    return () => clearTimeout(timeout)
   }, [error])
 
   return (
