@@ -1,5 +1,4 @@
 import Image from 'next/image'
-
 import { Container } from '@/components/Container'
 import OnzasImage from '@/images/sponsors/onzas.png'
 import GestumImage from '@/images/sponsors/gestum.png'

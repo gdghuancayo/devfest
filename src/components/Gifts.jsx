@@ -1,4 +1,3 @@
-'use client'
 import { cx } from '@/lib/utils'
 import Image from 'next/image'
 import BreakImage from '@/images/regalos/break.jpg'

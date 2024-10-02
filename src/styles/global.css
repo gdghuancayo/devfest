@@ -74,12 +74,12 @@
   width: 100%;
 }
 @font-face {
-  font-family: "NanumPenScript";
+  font-family: 'NanumPenScript';
   font-weight: 400;
   font-display: block;
   font-style: normal;
-  font-named-instance: "Regular";
-  src: url("/fonts/NanumPenScript.woff2") format("woff2");
+  font-named-instance: 'Regular';
+  src: url('/fonts/NanumPenScript.woff2') format('woff2');
 }
 
 .rainbow-border {
@@ -88,11 +88,11 @@
   /* Esquinas redondeadas */
   padding: 4px;
   /* Borde grueso */
-  background: linear-gradient(90deg, #4285F4, #34A853, #FBBC05, #EA4335);
+  background: linear-gradient(90deg, #4285f4, #34a853, #fbbc05, #ea4335);
 }
 
 .rainbow-border.focused {
-  background: linear-gradient(90deg, #4285F4, #34A853, #FBBC05, #EA4335);
+  background: linear-gradient(90deg, #4285f4, #34a853, #fbbc05, #ea4335);
 }
 
 .rainbow-border input {
@@ -149,4 +149,70 @@ label {
   100% {
     transform: translateY(5px);
   }
+}
+
+/* Animación para el movimiento 3D */
+@keyframes move {
+  0% {
+    transform: rotateY(-20deg) rotateX(-5deg);
+  }
+
+  25% {
+    transform: rotateY(20deg) rotateX(-5deg);
+  }
+
+  50% {
+    transform: rotateY(20deg) rotateX(5deg);
+  }
+
+  75% {
+    transform: rotateY(-20deg) rotateX(5deg);
+  }
+
+  100% {
+    transform: rotateY(-20deg) rotateX(-5deg);
+  }
+}
+
+/* Animación para el efecto de neón */
+@keyframes neonPulse {
+  0%,
+  100% {
+    text-shadow:
+      0 0 5px rgba(58, 123, 213, 0.7),
+      0 0 10px rgba(58, 123, 213, 0.5),
+      0 0 20px rgba(58, 123, 213, 0.3);
+    opacity: 1;
+  }
+
+  50% {
+    text-shadow:
+      0 0 15px rgba(58, 123, 213, 1),
+      0 0 30px rgba(58, 123, 213, 0.8),
+      0 0 45px rgba(58, 123, 213, 0.6);
+    opacity: 0.9;
+  }
+}
+
+/* Contenedor principal con perspectiva */
+#main-container {
+  perspective: 1000px;
+}
+
+/* Contenedor del logo y texto con efecto 3D */
+.container3d {
+  transform-style: preserve-3d;
+  animation: move 10s infinite;
+}
+
+.container3dneon {
+  transform-style: preserve-3d;
+  animation:
+    move 10s infinite,
+    neonPulse 2s infinite ease-in-out;
+}
+
+/* Logo con efecto 3D */
+.textoSobresaliente {
+  transform: translateZ(30px);
 }

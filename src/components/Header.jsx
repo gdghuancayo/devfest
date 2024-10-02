@@ -2,17 +2,17 @@
 
 import useScroll from '@/lib/use-scroll'
 import { cx } from '@/lib/utils'
-import React from 'react'
+import { useEffect, useState } from 'react'
 import { UsersRound, Calendar, Sparkles, Gift } from 'lucide-react'
 import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
 import { useRouter } from 'next/navigation'
 
 export function Header() {
   const scrolled = useScroll(15)
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
   const router = useRouter()
 
-  React.useEffect(() => {
+  useEffect(() => {
     const mediaQuery = window.matchMedia('(min-width: 768px)')
     const handleMediaQueryChange = (event) => {
       setOpen(false)
@@ -43,7 +43,7 @@ export function Header() {
         'animate-slide-down-fade fixed inset-x-3 top-4 z-50 mx-auto flex max-w-6xl transform-gpu justify-center overflow-hidden rounded-xl border border-transparent px-3 py-3 transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1.03)] will-change-transform',
         open === true ? 'h-52' : 'h-16',
         scrolled || open === true
-          ? 'backdrop-blur-nav max-w-4xl shadow-xl shadow-black/5 border-white/15 bg-black/70'
+          ? 'backdrop-blur-nav max-w-4xl border-white/15 bg-black/70 shadow-xl shadow-black/5'
           : 'bg-gray-950/0',
       )}
     >
@@ -100,14 +100,14 @@ export function Header() {
                 <Calendar className="w-6 h-6 mr-2" /> Agenda
               </button>
               <button
-                className="flex px-2 py-1 text-gray-50"
+                className="hidden px-2 py-1 text-gray-50 lg:flex"
                 onClick={() => scrollToTitle('gifts')}
               >
                 <Gift className="w-6 h-6 mr-2" />
                 Regalos
               </button>
               <button
-                className="flex px-2 py-1 text-gray-50"
+                className="hidden px-2 py-1 lg:flex text-gray-50"
                 onClick={() => scrollToTitle('sponsors')}
               >
                 <Sparkles className="w-6 h-6 mr-2" />

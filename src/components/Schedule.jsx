@@ -1,6 +1,4 @@
-'use client'
-
-import { useEffect, useState } from 'react'
+import Image from 'next/image'
 import LeslieImage from '@/images/ponentes/leslie.jpg'
 import DamianImage from '@/images/ponentes/damian.png'
 import AaronImage from '@/images/ponentes/aaron.jpeg'
@@ -13,24 +11,19 @@ import EduardoImage from '@/images/ponentes/eduardo.jpg'
 import GonzaloImage from '@/images/ponentes/gonzalo.jpg'
 import AndersImage from '@/images/ponentes/anders.png'
 import LuceroImage from '@/images/ponentes/lucero.jpg'
-import EdwardImage from '@/images/ponentes/edward.png'
-import SamuelImage from '@/images/ponentes/samuel.jpg'
+import EdwardImage from '@/images/ponentes/codi.jpeg'
+import SamuelImage from '@/images/ponentes/samuel.png'
 import YancelImage from '@/images/ponentes/yancel.jpg'
 import AfterImage from '@/images/experiencies/after.png'
 import ConcursoImage from '@/images/experiencies/concurso.jpg'
 import GamerImage from '@/images/experiencies/gamer.jpg'
-import Image from 'next/image'
+import IatonImage from '@/images/experiencies/iaton.png'
+import MarketingImage from '@/images/experiencies/marketing.png'
 
 function generarStartAt(hora) {
   const [horas, minutos] = hora.split(':').map(Number)
-
-  // Establecer la fecha deseada (por ejemplo, 13 de octubre de 2024)
-  const fecha = new Date(2024, 9, 13) // Nota: los meses en JavaScript van de 0 (enero) a 11 (diciembre)
-
-  // Establecer las horas y minutos
+  const fecha = new Date(2024, 9, 13)
   fecha.setHours(horas, minutos, 0, 0)
-
-  // Retornar el timestamp en milisegundos
   return fecha.getTime()
 }
 
@@ -151,7 +144,7 @@ const LIST_OF_WORKSHOPS = [
   {
     speaker: {
       name: 'Edward Luna',
-      description: 'Dotoc',
+      description: 'Doctoc',
       imgUrl: EdwardImage,
     },
     title: 'Taller de AppScript 📊',
@@ -187,8 +180,18 @@ const LIST_OF_EXPERIENCES = [
       description: 'Atracciones y sponsors',
       imgUrl: GamerImage,
     },
-    startAt: generarStartAt('10:30'),
+    startAt: generarStartAt('8:00'),
     title: 'VS Gaming 🎮, VR y más',
+    durationInMinutes: 30,
+  },
+  {
+    speaker: {
+      name: 'Concurso',
+      description: 'EAP. Industrial UC',
+      imgUrl: MarketingImage,
+    },
+    startAt: generarStartAt('9:30'),
+    title: 'Soluciones con Google ADS 🏭',
     durationInMinutes: 30,
   },
   {
@@ -207,8 +210,18 @@ const LIST_OF_EXPERIENCES = [
       description: 'Google Expert',
       imgUrl: JorgeImage,
     },
-    startAt: generarStartAt('12:30'),
+    startAt: generarStartAt('12:00'),
     title: 'Primeros pasos en programación 🚶‍♂️',
+    durationInMinutes: 30,
+  },
+  {
+    speaker: {
+      name: 'Wichay',
+      description: 'UC',
+      imgUrl: IatonImage,
+    },
+    startAt: generarStartAt('12:30'),
+    title: 'Premiación IdIAtón  🏅',
     durationInMinutes: 30,
   },
   {
@@ -218,124 +231,47 @@ const LIST_OF_EXPERIENCES = [
       imgUrl: AfterImage,
     },
     startAt: generarStartAt('20:30'),
-    title: 'Música, comida y más 🎉'
-    },
+    title: 'Música, comida y más 🎉',
+  },
 ]
 
-const Selector = ({ activeTab, setActiveTab }) => {
-  const options = ['Conferencia', 'Talleres', 'Experiencias'];
+const getTime = ({ timestamp, durationInMinutes }) => {
+  const timeFormatConfig = {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }
 
-  return (
-     <div className="mt-8 text-xl text-center text-white/80" id="agenda">
-      {/* Para pantallas md y superiores */}
-      <div className="hidden md:inline-block">
-        <div className="inline-flex overflow-hidden rounded-md">
-          {options.map((option, index) => (
-            <button
-              key={option}
-              onClick={() => setActiveTab(option)}
-              className={`border-2 border-opacity-50 border-indigo-900 px-6 py-2 font-bold focus:outline-none transition-all duration-300 ${
-                activeTab === option
-                  ? 'text-white bg-gradient-to-r from-purple-500 to-indigo-600'
-                  : 'text-white bg-transparent hover:bg-gradient-to-r hover:from-purple-700 hover:to-indigo-900'
-              } ${index === 0 ? 'rounded-l-md' : ''} ${
-                index === options.length - 1 ? 'rounded-r-md' : ''
-              }`}
-            >
-              {option}
-            </button>
-          ))}
-        </div>
-      </div>
-      {/* Para pantallas menores a md */}
-      <div className="md:hidden">
-        <select
-          value={activeTab}
-          onChange={(e) => setActiveTab(e.target.value)}
-          className="block w-full px-4 py-2 mt-2 font-bold text-center text-white rounded-md bg-gradient-to-r from-purple-500 to-indigo-600 focus:outline-none"
-        >
-          {options.map((option) => (
-            <option key={option} value={option} className="text-black">
-              {option}
-            </option>
-          ))}
-        </select>
-      </div>
-    </div>
-  );
-};
+  const durationInMs = durationInMinutes * 60 * 1000
 
-
-export const Schedule = () => {
-  const timezone = useGetTimezone()
-  const [activeTab, setActiveTab] = useState('Conferencia')
-  const [arrayRender, setArrayRender] = useState([])
-  useEffect(() => {
-    if (activeTab === 'Conferencia') {
-      setArrayRender(LIST_OF_TALKS)
-    }
-    if (activeTab === 'Talleres') {
-      setArrayRender(LIST_OF_WORKSHOPS)
-    }
-    if (activeTab === 'Experiencias') {
-      setArrayRender(LIST_OF_EXPERIENCES)
-    }
-  }, [activeTab])
-  return (
-    <section id="agenda" className="mx-auto max-w-[802px] px-4 pb-40 pt-10">
-      <h2 className="max-w-2xl mx-auto text-4xl font-medium tracking-tighter text-center text-white font-display sm:text-5xl">
-        Agenda
-      </h2>
-      <Selector activeTab={activeTab} setActiveTab={setActiveTab} />
-      {/* <div className="w-full mx-auto mt-2 space-y-4 text-center">
-        <span className="inline-flex flex-wrap items-center justify-center px-3 py-1 text-sm font-medium text-white rounded-full text-primary-300 shadow-inset bg-sky-950 shadow-white">
-          <span className="flex items-center gap-1 mr-1 opacity-75">
-            <svg
-              aria-hidden="true"
-              className="w-3 h-3 mr-1"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="#fff"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-                clipRule="evenodd"
-              />
-            </svg>
-            Zona horaria de la agenda:
-          </span>{' '}
-          <span>{timezone}</span>
-        </span>
-      </div> */}
-      <div className="flex flex-col gap-8 mt-12 md:hidden">
-        {arrayRender.map((talk) => (
-          <AgendaItem key={talk.speaker.name} {...talk} />
-        ))}
-      </div>
-      <div className="flex-col hidden gap-8 mt-12 md:flex">
-        {arrayRender.map((talk) => (
-          <AgendaItem key={talk.speaker.name} {...talk} />
-        ))}
-      </div>
-    </section>
+  const startAt = new Date(timestamp).toLocaleTimeString([], timeFormatConfig)
+  const endAt = new Date(timestamp + durationInMs).toLocaleTimeString(
+    [],
+    timeFormatConfig,
   )
+
+  return {
+    startAt,
+    endAt,
+  }
 }
 
 const AgendaItem = ({ startAt, durationInMinutes, title, speaker }) => {
-  const time = useTime({ timestamp: startAt, durationInMinutes })
+  const time = getTime({ timestamp: startAt, durationInMinutes })
 
   return (
-    <article className="relative flex w-full flex-col gap-5 overflow-hidden rounded-[20px] border border-white/[5%] bg-white/[3%] p-6 shadow before:absolute before:inset-0 before:-z-10 before:h-full before:w-full sm:flex-row sm:items-stretch">
+    <article className="mb-3 relative flex w-full flex-col gap-5 overflow-hidden rounded-[20px] border border-white/[5%] bg-white/[3%] p-6 shadow before:absolute before:inset-0 before:-z-10 before:h-full before:w-full sm:flex-row sm:items-stretch">
       <p className="flex items-center justify-center w-auto text-5xl font-bold shrink-0 text-white/60 sm:w-32 sm:text-right">
-        {time?.startAt}
+        {time.startAt}
       </p>
       <div className="flex-1">
         <header className="flex flex-row items-center gap-x-2">
           <h4 className="font-medium leading-tight text-transparent truncate bg-gradient-to-b from-indigo-300 to-indigo-500 bg-clip-text">
             {speaker.name}
           </h4>
-          <span className="truncate text-white/70">- {speaker.description}</span>
+          <span className="truncate text-white/70">
+            - {speaker.description}
+          </span>
         </header>
         <h4 className="mt-2 text-xl font-bold text-white">{title}</h4>
         <div className="flex items-center gap-3">
@@ -354,42 +290,49 @@ const AgendaItem = ({ startAt, durationInMinutes, title, speaker }) => {
   )
 }
 
-const useTime = ({ timestamp, durationInMinutes }) => {
-  const [time, setTime] = useState(null)
+export const Schedule = () => {
+  return (
+    <section id="agenda" className="mx-auto max-w-[802px] px-4 pb-40 pt-10">
+      <h2 className="max-w-2xl mx-auto text-4xl font-medium tracking-tighter text-center text-white font-display sm:text-5xl">
+        Agenda
+      </h2>
 
-  useEffect(() => {
-    // get HH:MM in the local user timezone
-    const timeFormatConfig = {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-    }
+      <div className="flex flex-col gap-8 mt-12">
+        {/* Conferencia abierta por defecto */}
+        <details className="group" open>
+          <summary className="p-4 text-2xl font-medium text-white transition-all border-2 border-indigo-900 rounded-lg cursor-pointer bg-gradient-to-r from-indigo-900/60 to-black/10 group-hover:from-indigo-900/80 group-hover:to-black/10">
+            Conferencia
+          </summary>
+          <div id="conference" className="p-4">
+            {LIST_OF_TALKS.map((item) => (
+              <AgendaItem key={item.speaker.name} {...item} />
+            ))}
+          </div>
+        </details>
 
-    const durationInMs = durationInMinutes * 60 * 1000
+        <details className="group">
+          <summary className="p-4 text-2xl font-bold text-white transition-all border-2 border-indigo-900 rounded-lg cursor-pointer bg-gradient-to-r from-indigo-900/60 to-black/60 group-hover:from-indigo-900/80 group-hover:to-black/80">
+            Talleres
+          </summary>
+          <div id="talleres" className="p-4">
+            {LIST_OF_WORKSHOPS.map((item) => (
+              <AgendaItem key={item.speaker.name} {...item} />
+            ))}
+          </div>
+        </details>
 
-    const startAt = new Date(timestamp).toLocaleTimeString([], timeFormatConfig)
-    const endAt = new Date(timestamp + durationInMs).toLocaleTimeString(
-      [],
-      timeFormatConfig,
-    )
-
-    // setTime(`${localTime} - ${endTime}`)
-    setTime({
-      startAt,
-      endAt,
-    })
-  }, [])
-
-  return time
+        <details className="group">
+          <summary className="p-4 text-2xl font-bold text-white transition-all border-2 border-indigo-900 rounded-lg cursor-pointer bg-gradient-to-r from-indigo-900/60 to-black/60 group-hover:from-indigo-900/80 group-hover:to-black/80">
+            Experiencias
+          </summary>
+          <div id="experiencias" className="p-4">
+            {LIST_OF_EXPERIENCES.map((item) => (
+              <AgendaItem key={item.speaker.name} {...item} />
+            ))}
+          </div>
+        </details>
+      </div>
+    </section>
+  )
 }
 
-export const useGetTimezone = () => {
-  const [timezone, setTimezone] = useState(null)
-
-  useEffect(() => {
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-    setTimezone(timezone)
-  }, [])
-
-  return timezone
-}

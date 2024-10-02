@@ -1,12 +1,6 @@
-'use client'
-
-import { useEffect, useId, useState } from 'react'
-import Image from 'next/image'
-import { TabGroup, TabPanel, TabPanels } from '@headlessui/react'
 import clsx from 'clsx'
-
+import Image from 'next/image'
 import { Container } from '@/components/Container'
-
 import LeslieImage from '@/images/ponentes/leslie.jpg'
 import DamianImage from '@/images/ponentes/damian.png'
 import AaronImage from '@/images/ponentes/aaron.jpeg'
@@ -102,23 +96,7 @@ function ImageClipPaths({ id, ...props }) {
 }
 
 export function Speakers() {
-  let id = useId()
-  let [tabOrientation, setTabOrientation] = useState('horizontal')
-
-  useEffect(() => {
-    let lgMediaQuery = window.matchMedia('(min-width: 1024px)')
-
-    function onMediaQueryChange({ matches }) {
-      setTabOrientation(matches ? 'vertical' : 'horizontal')
-    }
-
-    onMediaQueryChange(lgMediaQuery)
-    lgMediaQuery.addEventListener('change', onMediaQueryChange)
-
-    return () => {
-      lgMediaQuery.removeEventListener('change', onMediaQueryChange)
-    }
-  }, [])
+  const id = 'image-clip-path' // Usar un ID fijo
 
   return (
     <div className="py-20 mt-5 sm:py-32" id="speakers">
@@ -135,15 +113,9 @@ export function Speakers() {
             </span>
           </h2>
         </div>
-        <TabGroup
-          className="grid items-start grid-cols-1 mt-14 gap-x-8 gap-y-8 sm:mt-16 sm:gap-y-16 lg:mt-24"
-          vertical={tabOrientation === 'vertical'}
-        >
-          <TabPanels className="mx-auto">
-            <TabPanel
-              className="grid grid-cols-1 gap-x-8 gap-y-10 ui-not-focus-visible:outline-none sm:grid-cols-2 sm:gap-y-16 md:grid-cols-4"
-              unmount={false}
-            >
+        <div className="grid items-start grid-cols-1 mt-14 gap-x-8 gap-y-8 sm:mt-16 sm:gap-y-16 lg:mt-24">
+          <div className="mx-auto">
+            <div className="grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 sm:gap-y-16 md:grid-cols-4">
               {speakers.map((speaker, speakerIndex) => (
                 <div key={speakerIndex}>
                   <div className="group relative h-[17.5rem] transform overflow-hidden rounded-4xl sm:w-auto">
@@ -159,7 +131,9 @@ export function Speakers() {
                     />
                     <div
                       className="absolute inset-0 bg-indigo-50"
-                      style={{ clipPath: `url(#${id}-${speakerIndex % 3})` }}
+                      style={{
+                        clipPath: `url(#${id}-${speakerIndex % 3})`,
+                      }}
                     >
                       <Image
                         className="absolute inset-0 object-cover w-full h-full transition duration-300 group-hover:scale-110"
@@ -178,9 +152,9 @@ export function Speakers() {
                   </p>
                 </div>
               ))}
-            </TabPanel>
-          </TabPanels>
-        </TabGroup>
+            </div>
+          </div>
+        </div>
       </Container>
     </div>
   )
