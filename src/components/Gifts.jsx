@@ -3,6 +3,7 @@ import Image from 'next/image'
 import BreakImage from '@/images/regalos/break.jpg'
 import StikerImage from '@/images/regalos/stiker.png'
 import EventoImage from '@/images/regalos/evento.jpeg'
+import CertificadoImage from '@/images/regalos/certificado.jpg'
 
 function InstaxImage({ className, src, width, height, alt, caption }) {
   return (
@@ -46,11 +47,11 @@ export function Gifts() {
         <div className="flex flex-col items-center justify-center w-full gap-4 mt-20 md:flex-rowflex">
           <InstaxImage
             className="-mt-10 w-[20rem] -rotate-3"
-            src={EventoImage}
-            alt="Sorteos"
+            src={CertificadoImage}
+            alt="Certificado"
             width={640}
             height={965}
-            caption="+10 Sorteos"
+            caption="Certificado"
           />
         </div>
         <div className="flex flex-col items-center justify-center w-full mt-8 md:flex-row">
