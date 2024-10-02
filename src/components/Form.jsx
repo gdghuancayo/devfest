@@ -176,6 +176,8 @@ export default function Form() {
 
   const tipo = searchParams.get('type')
   const org = searchParams.get('org')
+  const cupon = searchParams.get('cupon')
+
   // Estados
   const [type, setType] = useState(
     tipo === 'presencial' ? 'Presencial' : 'Virtual',
@@ -199,6 +201,7 @@ export default function Form() {
   const [stock, setStock] = useState(true)
   const [ready, setReady] = useState(true)
   const [loader, setLoader] = useState(false)
+  const [cuponValid, setCuponValid] = useState(cupon ? cupon : '')
 
   useEffect(() => {
     setName(loginInfo.name)
@@ -252,10 +255,11 @@ export default function Form() {
         program,
         activities,
         dniData: dniData.resultado,
+        cupon: cuponValid,
       },
     })
 
-    if (type === 'Presencial') {
+    if (type === 'Presencial' && !validateCupon(cuponValid)) {
       if (organization === 'Universidad Continental') {
         await updateDoc(startsRef, {
           uc: increment(1),
@@ -279,6 +283,21 @@ export default function Form() {
     }
     router.push('/panel')
   }
+
+  const validateCupon = (name) => {
+    const cuponsActive = [
+      'UCAMBIPRES',
+      'UCEMPPRES',
+      'UCINDPRES',
+      'UCSISTPRES',
+      'ICPRES',
+    ]
+    if (cuponsActive.includes(name)) {
+      return true
+    }
+    return false
+  }
+
   useEffect(() => {
     const db = getFirestore()
     const execute = async () => {
@@ -295,14 +314,14 @@ export default function Form() {
   useEffect(() => {
     if (stats) {
       if (organization === 'Universidad Continental') {
-        if (stats.uc >= 200) {
+        if (stats.uc >= 10) {
           setStock(false)
         } else {
           setStock(true)
         }
       }
       if (organization === 'Instituto Continental') {
-        if (stats.ic >= 75) {
+        if (stats.ic >= 5) {
           setStock(false)
         } else {
           setStock(true)
@@ -332,13 +351,15 @@ export default function Form() {
       dni.length > 0 &&
       program.length > 0 &&
       tc &&
-      stock
+      (stock || validateCupon(cuponValid))
     ) {
       setReady(true)
     } else {
       setReady(false)
     }
   }, [name, phone, dni, organization, tc, program])
+
+  // console.log(validateCupon(cuponValid), stock)
   return (
     <div className="overflow-hidden isolate">
       {loader ? (
@@ -661,7 +682,7 @@ export default function Form() {
                       </div>
                     )}
 
-                    {!stock && (
+                    {!stock && !validateCupon(cuponValid) && (
                       <div className="p-4 mt-4 rounded-md bg-yellow-50">
                         <div className="flex">
                           <div className="flex-shrink-0">
@@ -700,6 +721,15 @@ export default function Form() {
                       </div>
                     )}
 
+                    {/* Cupon */}
+                    <div className="mt-6">
+                      <InputField
+                        value={cuponValid}
+                        onChange={setCuponValid}
+                        label={'Cupón'}
+                      />
+                    </div>
+
                     <div className="flex items-center justify-between mt-6">
                       <div className="flex">
                         <input
@@ -711,7 +741,7 @@ export default function Form() {
                         <div className="block w-full ml-3 text-sm text-justify text-white">
                           He leído y acepto los{' '}
                           <a
-                            href="https://doctoc.health/terminos-y-condiciones"
+                            href="/tc"
                             target="»_blank»"
                             className="text-indigo-400 underline"
                           >
@@ -719,7 +749,7 @@ export default function Form() {
                           </a>{' '}
                           y las{' '}
                           <a
-                            href="https://doctoc.health/politicas-de-privacidad"
+                            href="/tc"
                             target="»_blank»"
                             className="text-indigo-400 underline"
                           >

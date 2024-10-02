@@ -146,7 +146,12 @@ export default function Panel() {
         ) : (
           <>
             {activeTab === 'entrada' && (
-              <TicketCard attendeeData={loginInfo.data} />
+              <TicketCard attendeeData={loginInfo.data || {
+                name: "",
+                email: "",
+                registerID: "invalid",
+                activities: []
+              }} />
             )}
             {activeTab === 'calendar' && <Schedule />}
           </>

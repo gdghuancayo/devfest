@@ -42,7 +42,7 @@ const speakers = [
   },
   {
     name: 'Cesar Cervantes 🇵🇪',
-    role: 'Platzi',
+    role: 'Kuzi',
     image: CesarImage,
   },
   {

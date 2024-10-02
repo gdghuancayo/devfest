@@ -41,7 +41,7 @@ const LIST_OF_TALKS = [
   {
     speaker: {
       name: 'Cesar Cervantes',
-      description: 'Platzi',
+      description: 'Kuzi',
       imgUrl: CesarImage,
     },
     title: 'Nunca pares de aprender 💪',
