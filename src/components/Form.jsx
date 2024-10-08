@@ -165,6 +165,26 @@ const getOrg = (org) => {
   }
 }
 
+const getProgram = (cupon) => {
+  // console.log(cupon)
+  switch (cupon) {
+    case 'UCAMBIPRES':
+      return 'Ingeniería Ambiental'
+    case 'UCSISTPRES':
+      return 'Ingeniería de Sistemas e Informática'
+    case 'UCEMPPRES':
+      return 'Ingeniería Empresarial'
+    case 'UCINDPRES':
+      return 'Ingeniería Industrial'
+    case 'ICPRES':
+      return 'Desarrollo de Sistema de Información'
+    case 'FRIENDS':
+      return ''
+    default:
+      return ''
+  }
+}
+
 export default function Form() {
   // Contexto
   const { loginInfo, setNewLoginInfo } = useContext(AppContext)
@@ -182,12 +202,15 @@ export default function Form() {
   const [type, setType] = useState(
     tipo === 'presencial' ? 'Presencial' : 'Virtual',
   )
+    const [cuponValid, setCuponValid] = useState(cupon ? cupon : '')
   const [name, setName] = useState('')
   const [correo, setCorreo] = useState('')
   const [phone, setPhone] = useState('')
   const [dni, setDNI] = useState('')
   const [organization, setOrganization] = useState(getOrg(org))
-  const [program, setProgram] = useState('')
+  const [program, setProgram] = useState(
+    getProgram(cuponValid)
+  )
   const [activities, setActivities] = useState({
     conferencia: true,
     talleres: true,
@@ -201,7 +224,6 @@ export default function Form() {
   const [stock, setStock] = useState(true)
   const [ready, setReady] = useState(true)
   const [loader, setLoader] = useState(false)
-  const [cuponValid, setCuponValid] = useState(cupon ? cupon : '')
 
   useEffect(() => {
     setName(loginInfo.name)
@@ -291,9 +313,18 @@ export default function Form() {
       'UCINDPRES',
       'UCSISTPRES',
       'ICPRES',
+      'FRIENDS',
     ]
     if (cuponsActive.includes(name)) {
-      return true
+      if(name === 'ICPRES') {
+         if (stats.ic >= 75) {
+            return true
+        } else {
+         return flase
+        }
+      } else {
+         return true
+      }
     }
     return false
   }
@@ -314,18 +345,14 @@ export default function Form() {
   useEffect(() => {
     if (stats) {
       if (organization === 'Universidad Continental') {
-        if (stats.uc >= 10) {
+        if (stats.uc >= 5) {
           setStock(false)
         } else {
           setStock(true)
         }
       }
       if (organization === 'Instituto Continental') {
-        if (stats.ic >= 5) {
-          setStock(false)
-        } else {
-          setStock(true)
-        }
+        setStock(false)
       }
       if (organization === 'Continental University of Florida') {
         if (stats.cuf >= 5) {
@@ -335,7 +362,7 @@ export default function Form() {
         }
       }
       if (organization === 'Externo') {
-        if (stats.ext >= 10) {
+        if (stats.ext >= 5) {
           setStock(false)
         } else {
           setStock(true)
@@ -349,7 +376,7 @@ export default function Form() {
       name?.length > 0 &&
       phone.length > 0 &&
       dni.length > 0 &&
-      program.length > 0 &&
+      organization.length > 0 &&
       tc &&
       (stock || validateCupon(cuponValid))
     ) {
