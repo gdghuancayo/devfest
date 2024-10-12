@@ -165,21 +165,20 @@ const getOrg = (org) => {
   }
 }
 
-const getProgram = (cupon) => {
-  // console.log(cupon)
-  switch (cupon) {
-    case 'UCAMBIPRES':
+const getProgram = (programValid) => {
+  switch (programValid) {
+    case 'ucamb':
       return 'Ingeniería Ambiental'
-    case 'UCSISTPRES':
+    case 'ucsist':
       return 'Ingeniería de Sistemas e Informática'
-    case 'UCEMPPRES':
+    case 'ucempre':
       return 'Ingeniería Empresarial'
-    case 'UCINDPRES':
+    case 'ucindus':
       return 'Ingeniería Industrial'
-    case 'ICPRES':
+    case 'icsist':
       return 'Desarrollo de Sistema de Información'
-    case 'FRIENDS':
-      return ''
+    case 'icdata':
+      return 'Ciencias de datos e Inteligencia Artificial'
     default:
       return ''
   }
@@ -197,20 +196,19 @@ export default function Form() {
   const tipo = searchParams.get('type')
   const org = searchParams.get('org')
   const cupon = searchParams.get('cupon')
+  const programValid = searchParams.get('program')
 
   // Estados
   const [type, setType] = useState(
     tipo === 'presencial' ? 'Presencial' : 'Virtual',
   )
-    const [cuponValid, setCuponValid] = useState(cupon ? cupon : '')
+  const [cuponValid, setCuponValid] = useState(cupon ? cupon : '')
   const [name, setName] = useState('')
   const [correo, setCorreo] = useState('')
   const [phone, setPhone] = useState('')
   const [dni, setDNI] = useState('')
   const [organization, setOrganization] = useState(getOrg(org))
-  const [program, setProgram] = useState(
-    getProgram(cuponValid)
-  )
+  const [program, setProgram] = useState(programValid ? getProgram(programValid) : '')
   const [activities, setActivities] = useState({
     conferencia: true,
     talleres: true,
@@ -318,9 +316,9 @@ export default function Form() {
     if (cuponsActive.includes(name)) {
       if(name === 'ICPRES') {
          if (stats.ic >= 75) {
-            return true
+            return false
         } else {
-         return flase
+         return true
         }
       } else {
          return true
