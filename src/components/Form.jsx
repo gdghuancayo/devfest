@@ -208,7 +208,9 @@ export default function Form() {
   const [phone, setPhone] = useState('')
   const [dni, setDNI] = useState('')
   const [organization, setOrganization] = useState(getOrg(org))
-  const [program, setProgram] = useState(programValid ? getProgram(programValid) : '')
+  const [program, setProgram] = useState(
+    programValid ? getProgram(programValid) : '',
+  )
   const [activities, setActivities] = useState({
     conferencia: true,
     talleres: true,
@@ -314,14 +316,14 @@ export default function Form() {
       'FRIENDS',
     ]
     if (cuponsActive.includes(name)) {
-      if(name === 'ICPRES') {
-         if (stats.ic >= 75) {
-            return false
+      if (name === 'ICPRES') {
+        if (stats.ic >= 75) {
+          return false
         } else {
-         return true
+          return true
         }
       } else {
-         return true
+        return true
       }
     }
     return false
@@ -343,25 +345,41 @@ export default function Form() {
   useEffect(() => {
     if (stats) {
       if (organization === 'Universidad Continental') {
-        if (stats.uc >= 5) {
-          setStock(false)
+        if (type === 'Presencial') {
+          if (stats.uc >= 20) {
+            setStock(false)
+          } else {
+            setStock(true)
+          }
         } else {
           setStock(true)
         }
       }
       if (organization === 'Instituto Continental') {
-        setStock(false)
-      }
-      if (organization === 'Continental University of Florida') {
-        if (stats.cuf >= 5) {
+        if (type === 'Presencial') {
           setStock(false)
         } else {
           setStock(true)
         }
       }
+      if (organization === 'Continental University of Florida') {
+        if (type === 'Presencial') {
+          if (stats.cuf >= 5) {
+            setStock(false)
+          } else {
+            setStock(true)
+          }
+        } else {
+          setStock(true)
+        }
+      }
       if (organization === 'Externo') {
-        if (stats.ext >= 5) {
-          setStock(false)
+        if (type === 'Presencial') {
+          if (stats.ext >= 5) {
+            setStock(false)
+          } else {
+            setStock(true)
+          }
         } else {
           setStock(true)
         }
